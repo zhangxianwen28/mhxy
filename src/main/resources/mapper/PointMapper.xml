@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xw.mapper.PointMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.xw.entity.Point">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="code" property="code" />
+        <result column="city" property="city" />
+        <result column="house" property="house" />
+        <result column="npc" property="npc" />
+        <result column="x" property="x" />
+        <result column="y" property="y" />
+        <result column="type" property="type" />
+        <result column="program" property="program" />
+        <result column="status" property="status" />
+        <result column="enter" property="enter" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, name, code,city,house,npc, x, y, type, program, status, enter
+    </sql>
+
+</mapper>

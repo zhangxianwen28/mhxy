@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xw.mapper.PathMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.xw.entity.Path">
+        <id column="id" property="id" />
+        <result column="departure_address" property="departureAddress" />
+        <result column="target_address" property="targetAddress" />
+        <result column="point_code" property="pointCode" />
+        <result column="time" property="time" />
+        <result column="idx" property="idx" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, target_address, departure_address,time, point_code, idx
+    </sql>
+
+</mapper>
