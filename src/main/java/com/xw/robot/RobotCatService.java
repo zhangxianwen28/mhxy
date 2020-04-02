@@ -1,6 +1,6 @@
 package com.xw.robot;
 
-import com.xw.model.CityEnum;
+import com.xw.robot.model.CityEnum;
 import com.xw.robot.model.MyLocation;
 import java.awt.Point;
 
@@ -12,7 +12,7 @@ import java.awt.Point;
 public interface RobotCatService {
 
   /**
-   * 移动到游戏场景坐标点
+   * 移动到游戏场景坐标点，适用于短距离移动
    */
   void peopleMove(Point point, CityEnum city);
 
@@ -30,7 +30,7 @@ public interface RobotCatService {
   /**
    * 移动人物通过迷你地图
    */
-  void moveByMiniMap(Point point);
+  void moveByMiniMap(Point point, CityEnum city);
 
   /**
    * 打开背包使用道具

@@ -2,7 +2,7 @@ package com.xw.service.strategy.impl;
 
 import com.xw.GameContext;
 import com.xw.entity.Path;
-import com.xw.model.CityEnum;
+import com.xw.robot.model.CityEnum;
 import com.xw.model.TaskInfo;
 import com.xw.service.strategy.ConvoyStrategy;
 import com.xw.robot.RobotCatServiceImpl;

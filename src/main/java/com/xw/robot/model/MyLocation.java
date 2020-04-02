@@ -1,7 +1,5 @@
 package com.xw.robot.model;
 
-import com.xw.model.CityEnum;
-
 public class MyLocation {
     CityEnum myCity;
     int x;

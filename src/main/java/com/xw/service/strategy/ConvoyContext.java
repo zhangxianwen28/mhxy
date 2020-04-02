@@ -1,10 +1,11 @@
 package com.xw.service.strategy;
 
 import com.xw.model.TaskInfo;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @Auther: xw.z
@@ -24,4 +25,6 @@ public class ConvoyContext {
   public void escort(TaskInfo taskInfo) throws Exception {
     strategyMap.get(taskInfo.getTaskTarget().getCity()).escort();
   }
+
+
 }

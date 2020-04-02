@@ -2,6 +2,8 @@ package com.xw.model;
 
 import com.xw.entity.Path;
 import java.util.List;
+
+import com.xw.robot.model.CityEnum;
 import lombok.Data;
 
 /**

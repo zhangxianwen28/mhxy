@@ -2,7 +2,7 @@ package com.xw.robot;
 
 import com.alibaba.fastjson.JSON;
 import com.xw.GameContext;
-import com.xw.model.CityEnum;
+import com.xw.robot.model.CityEnum;
 import com.xw.robot.model.MyLocation;
 import com.xw.robot.util.CityUtil;
 import com.xw.robot.util.ImageOcr;
@@ -137,7 +137,7 @@ public class RobotCatServiceImpl implements RobotCatService {
 
 
   @Override
-  public void moveByMiniMap(Point point) {
+  public void moveByMiniMap(Point point, CityEnum city) {
     log.info("在迷你地图上移动人物 -->{}", point);
     RobotUtil.getInstance().TAB().mouseMove(point, 1000).click(2,1000).TAB();
   }
@@ -161,7 +161,6 @@ public class RobotCatServiceImpl implements RobotCatService {
 
   @Override
   public void attack() {
-    log.info("攻击!!!");
     RobotUtil.getInstance().ALT_A().ALT_A();
   }
 

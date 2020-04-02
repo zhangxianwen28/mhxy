@@ -1,7 +1,7 @@
 package com.xw.robot.util;
 
 
-import com.xw.model.CityEnum;
+import com.xw.robot.model.CityEnum;
 
 public class CityUtil {
 
@@ -10,7 +10,7 @@ public class CityUtil {
         if ("建邺捕".equals(cityStr)
                 || "津邺捕".equals(cityStr)
                 || "建邺城".equals(cityStr)) {
-            return CityEnum.JY;
+            return CityEnum.JYC;
         }
         if ("东悔湾".equals(cityStr)
                 || "东诲湾".equals(cityStr)
@@ -46,7 +46,7 @@ public class CityUtil {
             return CityEnum.HSS;
         }
         if ("傲耒国".equals(cityStr)) {
-            return CityEnum.AL;
+            return CityEnum.ALG;
         }
         if ("女儿村".equals(cityStr)) {
             return CityEnum.NEC;

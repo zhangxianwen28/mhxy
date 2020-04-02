@@ -1,10 +1,10 @@
 package com.xw.model;
 
-public enum CityEnum {
+public enum NEWCityEnum {
   DF("DF","地府"),
   SLD("SLD",""),
   CAC("CAC","长安城"),
-  JY("JY","建邺"),
+  JYC("JYC","建邺"),
   JNYW("JNYW","江南野外"),
   DHW("DHW",""),
   AL("AL","傲来国"),
@@ -43,7 +43,7 @@ public enum CityEnum {
   private String city;
   private String name;
 
-  CityEnum(String city, String name) {
+  NEWCityEnum(String city, String name) {
     this.city = city;
     this.name = name;
   }
