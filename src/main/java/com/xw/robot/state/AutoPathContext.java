@@ -22,8 +22,16 @@ public class AutoPathContext {
 
     public AutoPathContext() {
         pathStateMap.put(CityEnum.CAC.getCity(), new CAC());
-        pathStateMap.put(CityEnum.JYC.getCity(), new JYC());
         pathStateMap.put(CityEnum.JNYW.getCity(), new JNYW());
+        pathStateMap.put(CityEnum.JYC.getCity(), new JYC());
+        pathStateMap.put(CityEnum.DHW.getCity(), new DHW());
+        pathStateMap.put(CityEnum.ALG.getCity(), new ALG());
+        pathStateMap.put(CityEnum.HGS.getCity(), new HGS());
+        pathStateMap.put(CityEnum.BJLZ.getCity(), new BJLZ());
+        pathStateMap.put(CityEnum.CSJW.getCity(), new CSJW());
+        pathStateMap.put(CityEnum.CSC.getCity(), new CSC());
+        pathStateMap.put(CityEnum.DTJW.getCity(), new DTJW());
+        pathStateMap.put(CityEnum.DTGJ.getCity(), new DTGJ());
     }
 
     public void setStatus(CityEnum currCity) {
@@ -45,11 +53,11 @@ public class AutoPathContext {
                 return;
             }
             autoPathContext.getLinkState().move(autoPathContext);
-            Thread.sleep(3000);
+            Thread.sleep(1000);
         }
     }
 
     public static void main(String[] args) throws InterruptedException {
-        AutoPathContext.start(CityEnum.CAC, CityEnum.JYC);
+        AutoPathContext.start(CityEnum.CAC, CityEnum.BJLZ);
     }
 }

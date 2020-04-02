@@ -12,46 +12,57 @@ import lombok.extern.slf4j.Slf4j;
 public class ALG extends SiteState {
     public void move(AutoPathContext context) {
         if (CityEnum.CAC.equals(context.getTargetCity())) {
+            context.setStatus(CityEnum.DHW);
+            this.print(CityEnum.DHW.getName());
             return;
         }
         if (CityEnum.JNYW.equals(context.getTargetCity())) {
-            context.setStatus(CityEnum.JNYW);
+            context.setStatus(CityEnum.DHW);
+            this.print(CityEnum.DHW.getName());
             return;
         }
         if (CityEnum.JYC.equals(context.getTargetCity())) {
-            context.setStatus(CityEnum.JNYW);
+            context.setStatus(CityEnum.DHW);
+            this.print(CityEnum.DHW.getName());
             return;
         }
         if (CityEnum.DHW.equals(context.getTargetCity())) {
-            context.setStatus(CityEnum.JNYW);
+            context.setStatus(CityEnum.DHW);
+            this.print(CityEnum.DHW.getName());
             return;
         }
         if (CityEnum.ALG.equals(context.getTargetCity())) {
-            context.setStatus(CityEnum.JNYW);
             return;
         }
         if (CityEnum.HGS.equals(context.getTargetCity())) {
-            context.setStatus(CityEnum.JNYW);
+            context.setStatus(CityEnum.HGS);
+            this.print(CityEnum.HGS.getName());
             return;
         }
         if (CityEnum.BJLZ.equals(context.getTargetCity())) {
-            context.setStatus(CityEnum.JNYW);
+            context.setStatus(CityEnum.HGS);
+            this.print(CityEnum.HGS.getName());
             return;
         }
         if (CityEnum.CSJW.equals(context.getTargetCity())) {
-            context.setStatus(CityEnum.JNYW);
+            context.setStatus(CityEnum.HGS);
+            this.print(CityEnum.HGS.getName());
             return;
         }
         if (CityEnum.CSC.equals(context.getTargetCity())) {
-            context.setStatus(CityEnum.JNYW);
+            context.setStatus(CityEnum.HGS);
+            this.print(CityEnum.HGS.getName());
             return;
         }
+
         if (CityEnum.DTJW.equals(context.getTargetCity())) {
-            context.setStatus(CityEnum.JNYW);
+            context.setStatus(CityEnum.HGS);
+            this.print(CityEnum.HGS.getName());
             return;
         }
         if (CityEnum.DTGJ.equals(context.getTargetCity())) {
-            context.setStatus(CityEnum.JNYW);
+            context.setStatus(CityEnum.JYC);
+            this.print(CityEnum.JYC.getName());
             return;
         }
     }

@@ -10,16 +10,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public abstract class SiteState {
 
-    abstract void move(AutoPathContext context);
+  abstract void move(AutoPathContext context);
 
-    public void print(){
-       // log.info(" {}",);
-    }
+  public void print(String city) {
+    log.info("到达目的地... {}", city);
+  }
 
-    public static void main(String[] args) {
-        long id = 1242336332974395456L;
-        for (int i = 0; i <40 ; i++) {
-            System.out.println(++id);
-        }
-    }
 }
