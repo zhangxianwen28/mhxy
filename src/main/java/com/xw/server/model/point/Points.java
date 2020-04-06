@@ -84,6 +84,13 @@ public class Points {
   public final static String FLG_JD = "FLG_JD"; //飞行旗坐标_酒店
   public final static String FLG_CFBJ = "FLG_CFBJ"; //飞行旗坐标_长风镖局
 
+  /**
+   * 战斗验证
+   */
+  public final static String FIGHT_CC = "FIGHT_CC"; //飞行旗坐标_酒店
+  public final static String FIGHT_TIME = "FIGHT_TIME"; //飞行旗坐标_长风镖局
+  public final static String FIGHT_GD = "FIGHT_GD"; //飞行旗坐标_长风镖局
+
   // Caching
   private static Map<String, Attribute> map = new HashMap<>();
   private static Map<String, Point> basePoint = new HashMap<>();

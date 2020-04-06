@@ -98,14 +98,14 @@ public class AutoCombatContext {
 
   /**
    * 验证当前是否在战斗中
+   * 通过CC直播图标来判断
    */
   private static boolean checkBattle() throws IOException {
     int x = new Double(GameContext.winPoint.getX()).intValue() + 18;
     int y = new Double(GameContext.winPoint.getY()).intValue() + 219;
     // 23 219 12 * 12
     log.info("win :{}  game:{},{}", GameContext.winPoint, x, y);
-    BufferedImage searchImg = RobotUtil.getInstance().createScreenCapture(x, y,
-        12, 12);
+    BufferedImage searchImg = RobotUtil.getInstance().createScreenCapture(x, y,12, 12);
     File file = new File("cctest.png");
     try {
       ImageIO.write(searchImg, "png", file); //写入缩减后的图片
@@ -125,6 +125,7 @@ public class AutoCombatContext {
 
   /**
    * 是否出现4小人验证
+   * 通过右下角宫殿来判断
    */
   private static boolean checkBattleVerify() throws IOException {
     int x = new Double(GameContext.winPoint.getX()).intValue() + 895;
