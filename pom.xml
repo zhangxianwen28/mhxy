@@ -12,10 +12,10 @@
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
     <version>2.0.6.RELEASE</version>
-    <relativePath/> <!-- lookup parent from repository -->
+    <relativePath/>
   </parent>
   <dependencies>
-    <dependency>
+   <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter</artifactId>
     </dependency>
@@ -31,12 +31,7 @@
       <artifactId>jna-platform</artifactId>
       <version>4.5.2</version>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/net.coobird/thumbnailator -->
-    <dependency>
-      <groupId>net.coobird</groupId>
-      <artifactId>thumbnailator</artifactId>
-      <version>0.4.8</version>
-    </dependency>
+
 
     <dependency>
       <groupId>com.1stleg</groupId>
@@ -55,7 +50,7 @@
     </dependency>
 
 
-    <dependency>
+   <!-- <dependency>
       <groupId>com.baomidou</groupId>
       <artifactId>mybatis-plus-boot-starter</artifactId>
       <version>3.1.2</version>
@@ -72,7 +67,7 @@
       <groupId>p6spy</groupId>
       <artifactId>p6spy</artifactId>
       <version>3.8.1</version>
-    </dependency>
+    </dependency>-->
 
     <!-- lombok -->
     <dependency>
@@ -82,7 +77,7 @@
       <optional>true</optional>
     </dependency>
 
-    <dependency>
+    <!--<dependency>
       <groupId>com.baomidou</groupId>
       <artifactId>mybatis-plus-generator</artifactId>
       <version>3.1.2</version>
@@ -91,7 +86,7 @@
       <groupId>org.freemarker</groupId>
       <artifactId>freemarker</artifactId>
       <version>2.3.28</version>
-    </dependency>
+    </dependency>-->
 
 
     <dependency>
@@ -99,13 +94,13 @@
       <artifactId>commons-beanutils</artifactId>
       <version>1.9.3</version>
     </dependency>
-    <dependency>
+<!--    <dependency>
       <groupId>commons-logging</groupId>
       <artifactId>commons-logging</artifactId>
       <version>1.2</version>
-    </dependency>
+    </dependency>-->
     <!--springboot程序测试依赖，如果是自动创建项目默认添加-->
-    <dependency>
+   <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
@@ -127,6 +122,12 @@
       <groupId>com.yesup.oss</groupId>
       <artifactId>tensorflow-client</artifactId>
       <version>1.4-2</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-log4j12</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <dependency>

@@ -4,7 +4,7 @@ import com.sun.jna.platform.win32.User32;
 import com.sun.jna.platform.win32.WinDef.HWND;
 import com.sun.jna.platform.win32.WinUser;
 import com.sun.jna.platform.win32.WinUser.WINDOWINFO;
-import com.xw.robot.RobotUtil;
+import com.xw.server.util.RobotUtil;
 import java.awt.Point;
 import java.util.logging.Level;
 import java.util.logging.Logger;

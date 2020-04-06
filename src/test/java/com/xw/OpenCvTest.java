@@ -1,8 +1,8 @@
 package com.xw;
 
-import com.xw.util.ImageUtil;
-import com.xw.util.ImgCmpUtil;
-import com.xw.util.image.ImageHistogram;
+import com.xw.server.util.ImageUtil;
+import com.xw.server.util.ImgCmpUtil;
+import com.xw.server.util.image.ImageHistogram;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.File;
