@@ -1,9 +1,7 @@
 package com.xw.server.util;
 
-import java.awt.Color;
+import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import javax.imageio.ImageIO;
 
 /**
  * @Auther: xw.z
@@ -12,15 +10,7 @@ import javax.imageio.ImageIO;
  */
 public class ImageUtil {
 
-  public static void write(BufferedImage itemp, String fileName) {
-    try {
-      String suffix = "png";
-      File file = new File(fileName + "." + suffix);
-      ImageIO.write((BufferedImage) itemp, suffix, file); //写入缩减后的图片
-    } catch (Exception ex) {
-      ex.printStackTrace();
-    }
-  }
+
 
   /**
    * 反色处理

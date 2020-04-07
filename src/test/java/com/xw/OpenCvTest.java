@@ -1,17 +1,17 @@
 package com.xw;
 
-import com.xw.server.util.ImageUtil;
 import com.xw.server.util.ImgCmpUtil;
 import com.xw.server.util.image.ImageHistogram;
-import java.awt.Point;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.highgui.HighGui;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
+
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * @Auther: xw.z
@@ -34,8 +34,8 @@ public class OpenCvTest {
     Mat template1 = Imgcodecs.imread("D:\\tmp\\1.png");// 获取匹配模板
     cc(template1);
     BufferedImage image2 = (BufferedImage) HighGui.toBufferedImage(template1);
-    ImageUtil.write(image1,"test1");
-    ImageUtil.write(image2,"test2");
+    //ImageUtil.write(image1,"test1");
+    //ImageUtil.write(image2,"test2");
 
     ImageHistogram imageHistogram = new ImageHistogram();
     double match = imageHistogram.match(new File("D:\\IdeaProjects\\idea\\test1.png"), new File("D:\\IdeaProjects"

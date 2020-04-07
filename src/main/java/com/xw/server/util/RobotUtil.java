@@ -1,15 +1,18 @@
 package com.xw.server.util;
 
 import com.xw.server.function.CallBackFun;
+import com.xw.server.model.point.Points;
 import com.xw.server.util.opencv.OpenCVUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.opencv.core.Mat;
 import org.opencv.imgcodecs.Imgcodecs;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.math.BigDecimal;
 
 /**
@@ -38,9 +41,48 @@ public class RobotUtil {
         return instance;
     }
 
-    public BufferedImage createScreenCapture(int x, int y, int width, int height) {
+ /*   public BufferedImage createScreenCapture(int x, int y, int width, int height) {
         Rectangle screenRect = new Rectangle(x, y, width, height);
-        return this.robot.createScreenCapture(screenRect);
+        return robot.createScreenCapture(screenRect);
+    }*/
+
+    /**
+     * 截取图片
+     *
+     * @param screen
+     * @return
+     */
+    public BufferedImage createScreenCapture(Points.Screen screen) {
+        Rectangle screenRect = new Rectangle(screen.getStartPoint().x, screen.getStartPoint().y, screen.getWidth(), screen.getHeight());
+        return robot.createScreenCapture(screenRect);
+    }
+
+    /**
+     * 截取并保存图片
+     *
+     * @param screen
+     * @return
+     */
+    public BufferedImage createScreenCaptureAndSave(Points.Screen screen) {
+        BufferedImage screenCapture = createScreenCapture(screen);
+        if(!"".equals(screen.getPath())){
+            write(screenCapture, screen.getPath());
+        }
+        return screenCapture;
+    }
+
+    /**
+     * 保存图片
+     * @param image
+     * @param path 必须是带后缀路径
+     */
+    public void write(BufferedImage image, String path) {
+        try {
+            File file = new File(path);
+            ImageIO.write(image, Points.IMAGE_SUFFIX, file);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -56,8 +98,8 @@ public class RobotUtil {
         double[] mach = null;
         int w = 180;
         int h = 180;
-        OpenCVUtil.pointerSample(point, w, h);
-        Mat template = Imgcodecs.imread("D:\\tmp\\02.png");//待匹配图片
+        //OpenCVUtil.pointerSample(point, w, h);
+        Mat template = Imgcodecs.imread("D:\\tmp\\02.png");//样板图片
         Mat src = Imgcodecs.imread("D:\\IdeaProjects\\idea\\" + 1 + ".png");//待匹配图片
         mach = OpenCVUtil.mach(src, template);
 

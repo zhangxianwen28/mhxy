@@ -1,21 +1,17 @@
 package com.xw.server.service.state;
 
-import com.xw.server.service.GameContext;
+import com.xw.server.model.point.Points;
 import com.xw.server.util.ImgCmpUtil;
 import com.xw.server.util.RobotUtil;
+import com.xw.server.util.StringUtil;
 import com.xw.server.util.Tess4jUtil;
-import com.xw.server.util.Tess4jUtil.Param;
-import java.awt.Point;
-import java.awt.Toolkit;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import javax.imageio.ImageIO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.ResourceUtils;
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * @Auther: xw.z
@@ -29,16 +25,12 @@ public class AutoCombatContext {
   private static AtomicBoolean endFlag = new AtomicBoolean(false);
   private static AtomicBoolean startFlag = new AtomicBoolean(false);
 
-  private static String replaceBlank(String str) {
-    String dest = "";
-    if (str != null) {
-      Pattern p = Pattern.compile("\\s*|\t|\r|\n");
-      Matcher m = p.matcher(str);
-      dest = m.replaceAll("");
-    }
-    return dest;
-  }
+  private static final String VERIFY_FLAG_CC = "verify/battle/battle_cc.jpg";
+  private static final String VERIFY_FLAG_GD = "verify/battle/battle_gd.jpg";
 
+  /**
+   * 等待战斗结束，否则一直阻塞线程
+   */
   public static void waitSecurity() {
     while (true) {
       if (battleFlag.get()) {
@@ -52,9 +44,14 @@ public class AutoCombatContext {
       }
     }
   }
-  public static void end(){
+
+  /**
+   * 结束自动战斗
+   */
+  public static void stop(){
     endFlag.compareAndSet(false,true);
   }
+
   /**
    * 自动战斗
    */
@@ -71,9 +68,9 @@ public class AutoCombatContext {
         try {
           int r = 0;
           while (checkBattle()) {
-            log.info("侦察兵: 前方发现敌情 当前第{}回合", r);
+            log.info("发生战斗 : 第 {} 回合", r);
             while (checkBattleVerify() && r == 0) {
-              log.info("侦察兵: 前方发现障碍 当前第{}回合", r);
+
               Toolkit.getDefaultToolkit().beep();
               Thread.sleep(5000);
             }
@@ -101,19 +98,8 @@ public class AutoCombatContext {
    * 通过CC直播图标来判断
    */
   private static boolean checkBattle() throws IOException {
-    int x = new Double(GameContext.winPoint.getX()).intValue() + 18;
-    int y = new Double(GameContext.winPoint.getY()).intValue() + 219;
-    // 23 219 12 * 12
-    log.info("win :{}  game:{},{}", GameContext.winPoint, x, y);
-    BufferedImage searchImg = RobotUtil.getInstance().createScreenCapture(x, y,12, 12);
-    File file = new File("cctest.png");
-    try {
-      ImageIO.write(searchImg, "png", file); //写入缩减后的图片
-    } catch (Exception ex) {
-      ex.printStackTrace();
-    }
-
-    BufferedImage warImg = ImageIO.read(ResourceUtils.getFile("classpath:imgsource/cc.png"));
+    BufferedImage searchImg = RobotUtil.getInstance().createScreenCaptureAndSave(Points.getScreen(Points.FIGHT_CC));
+    BufferedImage warImg = ImageIO.read(ResourceUtils.getFile(VERIFY_FLAG_CC));
     Point battlePoint = ImgCmpUtil.isImageContain(searchImg, warImg);
     if (null == battlePoint) {
       battleFlag.set(true);
@@ -128,18 +114,8 @@ public class AutoCombatContext {
    * 通过右下角宫殿来判断
    */
   private static boolean checkBattleVerify() throws IOException {
-    int x = new Double(GameContext.winPoint.getX()).intValue() + 895;
-    int y = new Double(GameContext.winPoint.getY()).intValue() + 692;
-    log.info("win :{}  game:{},{}", GameContext.winPoint, x, y);
-
-    BufferedImage searchImg = RobotUtil.getInstance().createScreenCapture(x, y, 46, 25);
-    File file = new File("battle_gongtest.png");
-    try {
-      ImageIO.write(searchImg, "png", file); //写入缩减后的图片
-    } catch (Exception ex) {
-      ex.printStackTrace();
-    }
-    BufferedImage warImg = ImageIO.read(ResourceUtils.getFile("classpath:imgsource/battle_gong.png"));
+    BufferedImage searchImg = RobotUtil.getInstance().createScreenCapture(Points.getScreen(Points.FIGHT_GD));
+    BufferedImage warImg = ImageIO.read(ResourceUtils.getFile(VERIFY_FLAG_GD));
     Point battlePoint = ImgCmpUtil.isImageContain(searchImg, warImg);
     return null == battlePoint;
   }
@@ -148,13 +124,11 @@ public class AutoCombatContext {
    * 是否存在战斗计时
    */
   private static boolean checkBattleTiming() {
-    int x = new Double(GameContext.winPoint.getX()).intValue() + 395;
-    int y = new Double(GameContext.winPoint.getY()).intValue() + 68;
-    log.info("win :{}  game:{},{}", GameContext.winPoint, x, y);
-    Param param = new Param(x, y, 226, 188, true, "fight");
-    String result = Tess4jUtil.getInstance().screenCaptureOCR(param);
+    Points.Screen screen = Points.getScreen(Points.FIGHT_TIME);
+    BufferedImage image = RobotUtil.getInstance().createScreenCaptureAndSave(screen);
+    String result = Tess4jUtil.getInstance().doOCR(image,Tess4jUtil.CHI_LANGUAGE, StringUtil::replaceBlank);
     try {
-      Integer.valueOf(replaceBlank(result));
+      Integer.valueOf(result);
       log.debug("返回true");
       return true;
     } catch (NumberFormatException e) {

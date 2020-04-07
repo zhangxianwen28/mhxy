@@ -5,9 +5,12 @@ import com.sun.jna.platform.win32.User32;
 import com.sun.jna.platform.win32.WinDef.HWND;
 import com.sun.jna.platform.win32.WinUser;
 import com.sun.jna.platform.win32.WinUser.WINDOWINFO;
-import java.awt.Point;
-import java.math.BigDecimal;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.ClassPathResource;
+
+import java.awt.*;
+import java.io.IOException;
+import java.math.BigDecimal;
 
 /**
  * @Auther: xw.z
@@ -64,6 +67,13 @@ public class GameContext {
       log.info("中心坐标: {} {}  宽度 {} 高度 {}", b1c.intValue(), b2c.intValue(), width, height);
       CenterPoint.setLocation(b1c.intValue(), b2c.intValue());
     }
+  }
+
+  public static void main(String[] args) throws IOException {
+    ClassPathResource resource = new ClassPathResource("images/verify");
+    System.out.println(resource.getURL());
+  }
+  public void checkFileDirect(){
 
   }
 }

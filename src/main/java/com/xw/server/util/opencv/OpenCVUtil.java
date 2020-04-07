@@ -1,9 +1,7 @@
 package com.xw.server.util.opencv;
 
-import com.xw.server.util.ImageUtil;
+import com.xw.server.model.point.Points;
 import com.xw.server.util.RobotUtil;
-import java.awt.Point;
-import java.awt.image.BufferedImage;
 import org.opencv.core.Core;
 import org.opencv.core.Core.MinMaxLocResult;
 import org.opencv.core.CvType;
@@ -12,6 +10,8 @@ import org.opencv.core.Scalar;
 import org.opencv.highgui.HighGui;
 import org.opencv.imgproc.Imgproc;
 
+import java.awt.image.BufferedImage;
+
 /**
  * @Auther: xw.z
  * @Date: 2020/3/21 11:59
@@ -19,6 +19,12 @@ import org.opencv.imgproc.Imgproc;
  */
 public class OpenCVUtil {
 
+  /**
+   * OPEN CV 模板匹配
+   * @param src
+   * @param template
+   * @return
+   */
   public static double[] mach(Mat src, Mat template) {
     double[] res = new double[3];
     int method = Imgproc.TM_CCOEFF_NORMED;
@@ -44,8 +50,7 @@ public class OpenCVUtil {
         new org.opencv.core.Point(x + template.cols(), y + template.rows()), new Scalar(0, 0,
             255), 2, Imgproc.LINE_AA);
     BufferedImage image = (BufferedImage) HighGui.toBufferedImage(src);
-    ImageUtil.write(image, "11");
-    ImageUtil.write(image, System.currentTimeMillis()+"");
+    RobotUtil.getInstance().write(image, System.currentTimeMillis()+" 模板匹配结果");
 
     res[0] = mmr.maxVal;
     res[1] = x;
@@ -53,10 +58,9 @@ public class OpenCVUtil {
     return res;
   }
 
-  public static void pointerSample(Point point, int w, int h) {
-    int pw = w / 2;
-    int ph = h / 2;
-    BufferedImage a = RobotUtil.getInstance().createScreenCapture(point.x - pw, point.y - ph, w, h);
-    ImageUtil.write(a, "1");
+ public static void pointerSample(Points.Screen screen) {
+/*    int pw = w / 2;
+    int ph = h / 2;*/
+    BufferedImage a = RobotUtil.getInstance().createScreenCaptureAndSave(screen);
   }
 }

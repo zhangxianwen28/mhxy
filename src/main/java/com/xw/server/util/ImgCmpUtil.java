@@ -335,7 +335,7 @@ public class ImgCmpUtil {
 
     public static void imageCombine(List fileNameList) throws Exception {
         //创建四个文件对象（注：这里四张图片的宽度都是相同的，因此下文定义BufferedImage宽度就取第一只的宽度就行了）
-        File _file1 = new File("currentCity.png");
+        File _file1 = new File("current_city.jpg");
         File _file2 = new File("currentCity0.png");
         File _file3 = new File("currentCity2.png");
         File _file4 = new File("currentCity3.png");
