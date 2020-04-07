@@ -1,6 +1,6 @@
 package com.xw.server.model.point;
 
-import com.xw.server.service.GameContext;
+import com.xw.server.GameContext;
 
 import java.awt.Point;
 

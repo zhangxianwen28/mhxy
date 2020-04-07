@@ -1,6 +1,5 @@
 package com.xw.server;
 
-import com.xw.server.service.GameContext;
 import com.xw.server.service.TaskService;
 import com.xw.server.service.impl.TaskServiceImpl;
 import org.jnativehook.GlobalScreen;
@@ -19,12 +18,13 @@ import org.opencv.imgcodecs.Imgcodecs;
  */
 
 public class GameRun {
+
   static {
     //System.loadLibrary(Core.NATIVE_LIBRARY_NAME);  //加载动态链接库
   }
 
   public static void main(String[] args) throws Exception {
-    new GameContext().init();
+    GameContext.init();
     TaskService taskService = new TaskServiceImpl();
     taskService.convoy(null);
 

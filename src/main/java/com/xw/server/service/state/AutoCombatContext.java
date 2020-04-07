@@ -68,7 +68,7 @@ public class AutoCombatContext {
         try {
           int r = 0;
           while (checkBattle()) {
-            log.info("发生战斗 : 第 {} 回合", r);
+            log.info("战斗 : 第 {} 回合", r);
             while (checkBattleVerify() && r == 0) {
 
               Toolkit.getDefaultToolkit().beep();

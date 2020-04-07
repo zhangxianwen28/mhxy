@@ -18,17 +18,6 @@ public interface RobotCatService {
   void peopleMove(Point point, CityEnum city);
 
   /**
-   * 是否到达目标地点
-   */
-  boolean isReachDestination(CityEnum targetCity);
-
-  /**
-   * 获取人物当前位置信息
-   */
-  MyLocation getMyLocation(int getCityFlag, int getXYFlag);
-
-
-  /**
    * 移动人物通过迷你地图
    */
   void moveByMiniMap(Attribute map) ;

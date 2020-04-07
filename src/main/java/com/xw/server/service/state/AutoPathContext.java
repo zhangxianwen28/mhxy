@@ -1,6 +1,7 @@
 package com.xw.server.service.state;
 
 import com.xw.server.model.CityEnum;
+import com.xw.server.model.TaskInfo;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import lombok.Data;
@@ -34,7 +35,7 @@ public class AutoPathContext {
     pathStateMap.put(CityEnum.DTGJ.getCity(), new DTGJ());
   }
 
-  public static void start(CityEnum currCity, CityEnum targetCity) throws InterruptedException {
+  public static void start(CityEnum currCity, CityEnum targetCity)  {
     AutoPathContext autoPathContext = new AutoPathContext();
     autoPathContext.setCurrCity(currCity);
     autoPathContext.setTargetCity(targetCity);
@@ -46,14 +47,10 @@ public class AutoPathContext {
       if (autoPathContext.getCurrCity().getCity().equals(autoPathContext.getTargetCity().getCity())) {
         log.info("到达目的地.");
         //AutoCombatContext.end();
-        return;
+        return ;
       }
       autoPathContext.getLinkState().autoPath(autoPathContext);
     }
-  }
-
-  public static void main(String[] args) throws InterruptedException {
-    AutoPathContext.start(CityEnum.BJLZ, CityEnum.QQ);
   }
 
   public void setStatus(CityEnum currCity) {

@@ -11,11 +11,14 @@ import lombok.Data;
 public class TaskInfo {
 
   // 任务次数
-  private String targetNum;
+  private String count;
   // 当前次数
   private String currNum;
   // 任务目标
-  private CityEnum taskTarget;
-
+  private CityEnum currCity;
+  // 任务目标
+  private CityEnum targetCity;
+  // 任务目标
+  private String type;
 
 }
