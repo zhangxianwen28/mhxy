@@ -8,14 +8,17 @@ import java.awt.Point;
 import java.util.HashMap;
 import java.util.Map;
 
+
 /**
- *
+ * 坐标
  */
 public class Points {
+    public final static String IMAGE_SUFFIX = "jpg";
 
     /**
      * 迷你地图
      */
+
     // 长安城
     public final static String MAP_CAC_CFBJ = "MAP_CAC_CFBJ";
     public final static String MAP_CAC_QQF = "MAP_CAC_QQF";
@@ -187,11 +190,6 @@ public class Points {
         return screenMap.get(key);
     }
 
-    public static void main(String[] args) {
-        Attribute map_cac_qqf = map.get("MAP_CAC_QQF");
-        System.out.println(map_cac_qqf);
-
-    }
 
     public static class Attribute {
 
@@ -238,7 +236,6 @@ public class Points {
         }
 
     }
-    public final static String IMAGE_SUFFIX = "jpg";
 
     @Data
     public static class Screen {

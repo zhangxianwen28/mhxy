@@ -1,15 +1,15 @@
-package com.xw.server.service.impl;
+package com.xw.server.service;
 
-import com.xw.server.GameContext;
+import com.xw.server.service.auto.AutoCombatService;
+import com.xw.server.context.GameContext;
 import com.xw.server.model.CityEnum;
 import com.xw.server.model.MyLocation;
 import com.xw.server.model.point.Points.Attribute;
-import com.xw.server.service.RobotCatService;
-import com.xw.server.service.state.AutoCombatContext;
 import com.xw.server.util.RandomUtil;
 import com.xw.server.util.RobotUtil;
-import java.awt.Point;
 import lombok.extern.slf4j.Slf4j;
+
+import java.awt.*;
 
 /**
  * @Auther: xw.z
@@ -19,18 +19,18 @@ import lombok.extern.slf4j.Slf4j;
 
 
 @Slf4j
-public class RobotCatServiceImpl implements RobotCatService {
+public class OperationServiceImpl implements OperationService {
 
   public static int getMaxPointX(int x) {
     int a = x * 30;
-    int b = GameContext.width / 2 - 100;
+    int b = GameContext.WIDTH / 2 - 100;
     //log.info( "X坐标超出窗口警告 {}   {}" ,a,b);
     return Math.abs(Math.min(a, b));
   }
 
   public static int getMaxPointY(int y) {
     int a = y * 30;
-    int b = GameContext.height / 2 - 100;
+    int b = GameContext.HEIGHT / 2 - 100;
     //log.info( "Y坐标超出窗口警告 {}   {}" ,a,b);
     return Math.abs(Math.min(a, b));
 
@@ -57,8 +57,8 @@ public class RobotCatServiceImpl implements RobotCatService {
       if (Math.abs(y) >= maxStep) {
         yy = Math.abs(y) > maxY ? RandomUtil.getRandomStep(maxY) : y;
       }
-      int ctx = (int) GameContext.CenterPoint.getX();
-      int cty = (int) GameContext.CenterPoint.getY();
+      int ctx = (int) GameContext.CLIENT_CENTER_POINT.getX();
+      int cty = (int) GameContext.CLIENT_CENTER_POINT.getY();
       if (xx != 0) {
         if (x > 0) {
           ctx = ctx + getMaxPointX(xx);
@@ -77,7 +77,7 @@ public class RobotCatServiceImpl implements RobotCatService {
           log.info("Y轴向下  {} + {} = {} ", cty, getMaxPointY(yy), cty + getMaxPointY(yy));
         }
       }
-      AutoCombatContext.waitSecurity();
+      AutoCombatService.waitSecurity();
       RobotUtil.getInstance().mouseMove(new Point(ctx, cty), RandomUtil.getRandomDelay(500)).click(1, 1000);
 
     } while (Math.abs(x) < maxStep && Math.abs(y) < maxStep);
@@ -90,7 +90,7 @@ public class RobotCatServiceImpl implements RobotCatService {
     int x;
     int y;
     do {
-      AutoCombatContext.waitSecurity();
+      AutoCombatService.waitSecurity();
       RobotUtil.getInstance().TAB().mouseMove(attribute.getPoint1(), 1000).click(1, 1000).TAB();
       try {
         Thread.sleep(attribute.getSleepTime());

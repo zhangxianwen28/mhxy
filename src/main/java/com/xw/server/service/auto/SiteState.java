@@ -1,4 +1,4 @@
-package com.xw.server.service.state;
+package com.xw.server.service.auto;
 
 import com.xw.server.function.CallBackFun;
 import com.xw.server.model.CityEnum;
@@ -6,14 +6,11 @@ import com.xw.server.model.CityTrees;
 import com.xw.server.model.CityTrees.CityTree;
 import com.xw.server.model.point.Points;
 import com.xw.server.model.point.Points.Attribute;
-import com.xw.server.service.RobotCatService;
-import com.xw.server.service.impl.RobotCatServiceImpl;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import com.xw.server.service.OperationService;
+import com.xw.server.service.OperationServiceImpl;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.*;
 
 /**
  * @Auther: xw.z
@@ -23,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public abstract class SiteState {
 
-  RobotCatService rb = new RobotCatServiceImpl();
+  OperationService rb = new OperationServiceImpl();
 
   /**
    * 计算路径
@@ -84,7 +81,7 @@ public abstract class SiteState {
     });
   }
 
-  abstract void autoPath(AutoPathContext context);
+  abstract void autoPath(AutoPathService context);
 
   public void convey(Attribute attribute, CallBackFun fun) {
     // 通过地图移动

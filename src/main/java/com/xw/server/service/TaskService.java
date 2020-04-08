@@ -12,7 +12,7 @@ public interface TaskService {
   /**
    * 开始押镖
    */
-  void convoy(TaskInfo taskInfo) throws Exception;
+  void doTask(TaskInfo taskInfo) throws Exception;
 
 
 }

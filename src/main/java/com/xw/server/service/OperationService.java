@@ -1,16 +1,16 @@
 package com.xw.server.service;
 
 import com.xw.server.model.CityEnum;
-import com.xw.server.model.MyLocation;
 import com.xw.server.model.point.Points.Attribute;
-import java.awt.Point;
+
+import java.awt.*;
 
 /**
  * @Auther: xw.z
  * @Date: 2020/3/9 10:52
  * @Description:
  */
-public interface RobotCatService {
+public interface OperationService {
 
   /**
    * 移动到游戏场景坐标点，适用于短距离移动

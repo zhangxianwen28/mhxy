@@ -1,4 +1,4 @@
-package com.xw.server;
+package com.xw.server.context;
 
 import com.alibaba.fastjson.JSON;
 import com.sun.jna.Native;
@@ -13,13 +13,11 @@ import com.xw.server.util.CityUtil;
 import com.xw.server.util.MyImageUtil;
 import com.xw.server.util.RobotUtil;
 import com.xw.server.util.Tess4jUtil;
-import java.awt.image.BufferedImage;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.core.io.ClassPathResource;
 
 import java.awt.*;
-import java.io.IOException;
+import java.awt.image.BufferedImage;
 import java.math.BigDecimal;
 
 /**
@@ -32,13 +30,16 @@ import java.math.BigDecimal;
 @Slf4j
 public class GameContext {
 
-  public static Point winPoint = new Point();     // 客户端坐标
-  public static Point CenterPoint = new Point();     // 客户端中心坐标
-  public static int width;     // 游戏客户端 宽度
-  public static int height;     // 游戏客户端高度
+  public static Point CLIENT_POINT = new Point();     // 客户端坐标
+  public static Point CLIENT_CENTER_POINT = new Point();     // 客户端中心坐标
+  public static int WIDTH;     // 游戏客户端 宽度
+  public static int HEIGHT;     // 游戏客户端高度
+
 
   /**
-   * 查找WIN目标窗口
+   * 查找windows窗口
+   * @param args
+   * @return
    */
   private static String findWindowText(String args) {
     final String[] titleName = new String[1];
@@ -56,6 +57,9 @@ public class GameContext {
     return titleName[0];
   }
 
+  /**
+   * 初始化环境信息
+   */
   public static void init() {
     //String windowName = "梦幻西游 ONLINE - (" + area + "[" + serve + "] - " + name + "[" + id + "])";
     HWND hwnd = User32.INSTANCE.FindWindow(null, findWindowText("梦幻西游"));
@@ -66,17 +70,22 @@ public class GameContext {
       User32.INSTANCE.GetWindowInfo(hwnd, info);
       User32.INSTANCE.ShowWindow(hwnd, WinUser.SW_RESTORE);
       User32.INSTANCE.SetForegroundWindow(hwnd);
-      winPoint.setLocation(info.rcWindow.left, info.rcWindow.top);
+      CLIENT_POINT.setLocation(info.rcWindow.left, info.rcWindow.top);
       BigDecimal b1 = new BigDecimal(info.rcWindow.right - info.rcWindow.left);
       BigDecimal b2 = new BigDecimal(info.rcWindow.bottom - info.rcWindow.top);
       BigDecimal b1c = b1.divide(new BigDecimal("2"), 0);
       BigDecimal b2c = b2.divide(new BigDecimal("2"), 0);
-      width = info.rcWindow.right;
-      height = info.rcClient.bottom;
-      log.info("中心坐标: {} {}  宽度 {} 高度 {}", b1c.intValue(), b2c.intValue(), width, height);
-      CenterPoint.setLocation(b1c.intValue(), b2c.intValue());
+      WIDTH = info.rcWindow.right;
+      HEIGHT = info.rcClient.bottom;
+      log.info("中心坐标: {} {}  宽度 {} 高度 {}", b1c.intValue(), b2c.intValue(), WIDTH, HEIGHT);
+      CLIENT_CENTER_POINT.setLocation(b1c.intValue(), b2c.intValue());
     }
   }
+
+  /**
+   * 获取当前城市
+   * @return CityEnum
+   */
   public static CityEnum getCurrCity(){
     CityEnum cityEnum = null;
     int loop = 0;
@@ -102,6 +111,11 @@ public class GameContext {
     }
     return cityEnum;
   }
+
+  /**
+   * 获取当前坐标
+   * @return Point
+   */
   public static Point getCurrPoint(){
     Points.Screen screen = Points.getScreen(Points.BASE_XY);
     BufferedImage xyImage = RobotUtil.getInstance().createScreenCapture(screen);
@@ -117,6 +131,10 @@ public class GameContext {
     return  new Point(xyArr[0],xyArr[1]);
   }
 
+  /**
+   * 获取当前位置
+   * @return MyLocation
+   */
   public static MyLocation getMyLocation() {
     MyLocation myLocation = new MyLocation();
     myLocation.setMyCity(getCurrCity());
@@ -127,6 +145,7 @@ public class GameContext {
     }
     return myLocation;
   }
+
   private static int[] getXY(String xyStr) {
     try {
       String s[] = xyStr.split(":");

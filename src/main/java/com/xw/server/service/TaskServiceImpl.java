@@ -1,11 +1,9 @@
-package com.xw.server.service.impl;
+package com.xw.server.service;
 
-import com.xw.server.GameContext;
+import com.xw.server.context.GameContext;
 import com.xw.server.model.CityEnum;
 import com.xw.server.model.TaskInfo;
-import com.xw.server.service.RobotCatService;
-import com.xw.server.service.TaskService;
-import com.xw.server.service.state.AutoPathContext;
+import com.xw.server.service.auto.AutoPathService;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -17,19 +15,20 @@ import lombok.extern.slf4j.Slf4j;
 public class TaskServiceImpl implements TaskService {
 
   private TaskInfo task;
-  private RobotCatService robot;
+
+  private OperationService robot;
 
   @Override
-  public void convoy(TaskInfo taskInfo) throws Exception {
-    init(taskInfo).getTask().run().complete();
+  public void doTask(TaskInfo task){
+    init(task).getTask().run().complete();
   }
 
   private TaskServiceImpl init(TaskInfo taskInfo) {
     this.task = taskInfo;
-    this.robot = new RobotCatServiceImpl();
+    this.robot = new OperationServiceImpl();
 
     if (CityEnum.CAC.equals(GameContext.getCurrCity())) {
-      AutoPathContext.start(CityEnum.CAC, CityEnum.ZBT);
+      AutoPathService.start(CityEnum.CAC, CityEnum.ZBT);
     } else {
       // TODO 使用飞行棋道具去酒店门口
     }
@@ -43,7 +42,7 @@ public class TaskServiceImpl implements TaskService {
   }
 
   private TaskServiceImpl run() {
-    AutoPathContext.start(task.getCurrCity(), task.getTargetCity());
+    AutoPathService.start(task.getCurrCity(), task.getTargetCity());
     return this;
   }
 

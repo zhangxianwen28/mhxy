@@ -1,11 +1,11 @@
-package com.xw.server.service.state;
+package com.xw.server.service.auto;
 
 import com.xw.server.model.CityEnum;
-import com.xw.server.model.TaskInfo;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @Auther: xw.z
@@ -14,14 +14,14 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Data
 @Slf4j
-public class AutoPathContext {
+public class AutoPathService {
 
   private final Map<String, SiteState> pathStateMap = new ConcurrentHashMap<>();
   private CityEnum currCity;  // 当前城市
   private CityEnum targetCity;  // 目标城市
   private SiteState linkState;  //设置当前状态
 
-  public AutoPathContext() {
+  public AutoPathService() {
     pathStateMap.put(CityEnum.CAC.getCity(), new CAC());
     pathStateMap.put(CityEnum.JNYW.getCity(), new JNYW());
     pathStateMap.put(CityEnum.JYC.getCity(), new JYC());
@@ -35,24 +35,33 @@ public class AutoPathContext {
     pathStateMap.put(CityEnum.DTGJ.getCity(), new DTGJ());
   }
 
+  /**
+   * 开始寻路
+   * @param currCity
+   * @param targetCity
+   */
   public static void start(CityEnum currCity, CityEnum targetCity)  {
-    AutoPathContext autoPathContext = new AutoPathContext();
-    autoPathContext.setCurrCity(currCity);
-    autoPathContext.setTargetCity(targetCity);
-    autoPathContext.setStatus(currCity);
+    AutoPathService autoPathService = new AutoPathService();
+    autoPathService.setCurrCity(currCity);
+    autoPathService.setTargetCity(targetCity);
+    autoPathService.setStatus(currCity);
 
     log.info("路线： {} >> {}", currCity.getCityName(),targetCity.getCityName());
     //AutoCombatContext.start();
     while (true) {
-      if (autoPathContext.getCurrCity().getCity().equals(autoPathContext.getTargetCity().getCity())) {
+      if (autoPathService.getCurrCity().getCity().equals(autoPathService.getTargetCity().getCity())) {
         log.info("到达目的地.");
         //AutoCombatContext.end();
         return ;
       }
-      autoPathContext.getLinkState().autoPath(autoPathContext);
+      autoPathService.getLinkState().autoPath(autoPathService);
     }
   }
 
+  /**
+   * 更新当前状态
+   * @param currCity
+   */
   public void setStatus(CityEnum currCity) {
     // 更新当前城市
     this.setCurrCity(currCity);

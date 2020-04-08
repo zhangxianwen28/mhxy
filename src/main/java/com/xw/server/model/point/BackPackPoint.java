@@ -1,6 +1,6 @@
 package com.xw.server.model.point;
 
-import com.xw.server.GameContext;
+import com.xw.server.context.GameContext;
 
 import java.awt.Point;
 
@@ -21,10 +21,10 @@ public class BackPackPoint {
      * @param num {1-20}
      */
     public static Point getBackPackPoint(int num) {
-        int tx = (int) (GameContext.winPoint.getX() + x + (width / 2)) + ((num > 5 ? ((num % 5) == 0 ? 4 : (num % 5) - 1) :
+        int tx = (int) (GameContext.CLIENT_POINT.getX() + x + (width / 2)) + ((num > 5 ? ((num % 5) == 0 ? 4 : (num % 5) - 1) :
                 num - 1)
                 * width);
-        int ty = (int) (GameContext.winPoint.getY() + y + (height / 2)) + ((num > 5 ? (num - 1) / 5 : 0) * height);
+        int ty = (int) (GameContext.CLIENT_POINT.getY() + y + (height / 2)) + ((num > 5 ? (num - 1) / 5 : 0) * height);
 
         return new Point(tx, ty);
     }

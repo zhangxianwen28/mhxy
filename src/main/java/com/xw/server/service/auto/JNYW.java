@@ -1,4 +1,4 @@
-package com.xw.server.service.state;
+package com.xw.server.service.auto;
 
 import com.xw.server.model.CityEnum;
 import com.xw.server.model.point.Points;
@@ -8,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 public class JNYW extends SiteState {
 
   @Override
-  public void autoPath(AutoPathContext context) {
+  public void autoPath(AutoPathService context) {
     CityEnum tg = context.getTargetCity();
     if (containsCity(CityEnum.CAC, tg)) {
       convey(Points.getMap(Points.MAP_JNYW_CAC));

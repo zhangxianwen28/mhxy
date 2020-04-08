@@ -1,4 +1,4 @@
-package com.xw.server.service.state;
+package com.xw.server.service.auto;
 
 import com.xw.server.model.CityEnum;
 import com.xw.server.model.point.Points;
@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class DHW extends SiteState {
-    public void autoPath(AutoPathContext context) {
+    public void autoPath(AutoPathService context) {
         if (containsCity(CityEnum.CAC, context.getTargetCity())) {
             context.setStatus(CityEnum.JYC);
             this.print(CityEnum.JYC.getCityName());

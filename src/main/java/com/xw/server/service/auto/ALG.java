@@ -1,4 +1,4 @@
-package com.xw.server.service.state;
+package com.xw.server.service.auto;
 
 import com.xw.server.model.CityEnum;
 import com.xw.server.model.point.Points;
@@ -11,15 +11,16 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class ALG extends SiteState {
-  private final String prefix = "MAP_ALG_";
 
-  public void autoPath(AutoPathContext context) {
+  public void autoPath(AutoPathService context) {
     CityEnum tg = context.getTargetCity();
+
     if (containsCity(CityEnum.CAC, tg)) {
       context.setStatus(CityEnum.DHW);
       this.print(CityEnum.DHW.getCityName());
       return;
     }
+
     if (containsCity(CityEnum.JNYW, tg)) {
       context.setStatus(CityEnum.DHW);
       this.print(CityEnum.DHW.getCityName());
