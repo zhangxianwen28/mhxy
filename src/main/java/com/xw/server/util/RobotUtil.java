@@ -1,6 +1,7 @@
 package com.xw.server.util;
 
 import com.xw.server.function.CallBackFun;
+import com.xw.server.function.PretreatmentFun;
 import com.xw.server.model.point.Points;
 import com.xw.server.util.opencv.OpenCVUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -56,7 +57,19 @@ public class RobotUtil {
         Rectangle screenRect = new Rectangle(screen.getStartPoint().x, screen.getStartPoint().y, screen.getWidth(), screen.getHeight());
         return robot.createScreenCapture(screenRect);
     }
-
+    /**
+     * 截取并保存图片
+     *
+     * @param screen
+     * @return
+     */
+    public BufferedImage createScreenCaptureAndSave(PretreatmentFun fun ,Points.Screen screen) {
+        BufferedImage screenCapture = createScreenCapture(screen);
+        if(!"".equals(screen.getPath())){
+            write(fun.pretreatment(screenCapture), screen.getPath());
+        }
+        return screenCapture;
+    }
     /**
      * 截取并保存图片
      *
@@ -78,7 +91,7 @@ public class RobotUtil {
      */
     public void write(BufferedImage image, String path) {
         try {
-            File file = new File(path);
+            File file = new File(path+"."+Points.IMAGE_SUFFIX);
             ImageIO.write(image, Points.IMAGE_SUFFIX, file);
         } catch (Exception e) {
             e.printStackTrace();

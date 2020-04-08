@@ -19,6 +19,9 @@ public class Tess4jUtil {
 
     private final static String TESS4J_PATH = "tessdata";
     public final static String CHI_LANGUAGE = "chi_sim";
+    public final static String XY_LANGUAGE = "myxy";
+    public final static String CITY_LANGUAGE = "mycity";
+    public final static String B_LANGUAGE = "mybiao";
     public final static String EN_LANGUAGE = "en";
 
 
@@ -64,15 +67,11 @@ public class Tess4jUtil {
      * @return
      */
     public String doOCR(BufferedImage image, String language) {
-      /*  BufferedImage searchImg = RobotUtil.getInstance().createScreenCapture(screen.getStartPoint(), screen.getWidth(), screen.getHeight());
-        File file = new File(screen.getPath());
-        //chi_sim ：简体中文， eng    根据需求选择语言库*/
-        iTesseract.setLanguage(language);
         try {
-            //ImageIO.write(searchImg, SUFFIX, file);
+            iTesseract.setLanguage(language);
             return iTesseract.doOCR(image);
         } catch (Exception ex) {
-            ex.printStackTrace();
+            log.error("图片识别失败");
         }
         return "";
     }

@@ -8,6 +8,7 @@ import org.jnativehook.NativeHookException;
 import org.jnativehook.dispatcher.DefaultDispatchService;
 import org.jnativehook.keyboard.NativeKeyEvent;
 import org.jnativehook.keyboard.NativeKeyListener;
+import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.highgui.HighGui;
 import org.opencv.imgcodecs.Imgcodecs;
@@ -21,13 +22,13 @@ import org.opencv.imgcodecs.Imgcodecs;
 public class GameRun {
 
   static {
-    //System.loadLibrary(Core.NATIVE_LIBRARY_NAME);  //加载动态链接库
+    System.loadLibrary(Core.NATIVE_LIBRARY_NAME);  //加载动态链接库
   }
 
   public static void main(String[] args) throws Exception {
     GameContext.init();
-    TaskService taskService = new TaskServiceImpl();
-    taskService.doTask(null);
+    //TaskService taskService = new TaskServiceImpl();
+    //taskService.doTask(null);
 
   }
 

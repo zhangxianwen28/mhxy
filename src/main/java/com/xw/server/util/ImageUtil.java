@@ -9,9 +9,6 @@ import java.awt.image.BufferedImage;
  * @Description:
  */
 public class ImageUtil {
-
-
-
   /**
    * 反色处理
    * @param img
@@ -40,7 +37,7 @@ public class ImageUtil {
   /**
    * 二值化
    */
-  public static BufferedImage binaryImage(BufferedImage image) throws Exception {
+  public static BufferedImage binaryImage(BufferedImage image)  {
     int w = image.getWidth();
     int h = image.getHeight();
     float[] rgb = new float[3];

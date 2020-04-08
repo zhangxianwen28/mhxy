@@ -10,15 +10,15 @@ import com.xw.server.model.CityEnum;
 import com.xw.server.model.MyLocation;
 import com.xw.server.model.point.Points;
 import com.xw.server.util.CityUtil;
+import com.xw.server.util.ImageUtil;
 import com.xw.server.util.MyImageUtil;
 import com.xw.server.util.RobotUtil;
 import com.xw.server.util.Tess4jUtil;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-
-import java.awt.*;
+import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.math.BigDecimal;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * @Auther: xw.z
@@ -38,22 +38,20 @@ public class GameContext {
 
   /**
    * 查找windows窗口
-   * @param args
-   * @return
    */
-  private static String findWindowText(String args) {
+  private static String findWindowText() {
     final String[] titleName = new String[1];
     User32.INSTANCE.EnumWindows((hWnd, arg1) -> {
       char[] windowText = new char[512];
       User32.INSTANCE.GetWindowText(hWnd, windowText, 512);
       String wText = Native.toString(windowText);
-      if (wText.startsWith(args)) {
+      if (wText.startsWith("梦幻西游")) {
         titleName[0] = wText;
         return true;
       }
       return true;
     }, null);
-    System.out.println(titleName[0]);
+    log.info(titleName[0]);
     return titleName[0];
   }
 
@@ -61,50 +59,59 @@ public class GameContext {
    * 初始化环境信息
    */
   public static void init() {
-    //String windowName = "梦幻西游 ONLINE - (" + area + "[" + serve + "] - " + name + "[" + id + "])";
-    HWND hwnd = User32.INSTANCE.FindWindow(null, findWindowText("梦幻西游"));
+    HWND hwnd = User32.INSTANCE.FindWindow(null, findWindowText());
     if (hwnd == null) {
       log.error("客户端未打开");
-    } else {
-      WINDOWINFO info = new WINDOWINFO();
-      User32.INSTANCE.GetWindowInfo(hwnd, info);
-      User32.INSTANCE.ShowWindow(hwnd, WinUser.SW_RESTORE);
-      User32.INSTANCE.SetForegroundWindow(hwnd);
-      CLIENT_POINT.setLocation(info.rcWindow.left, info.rcWindow.top);
-      BigDecimal b1 = new BigDecimal(info.rcWindow.right - info.rcWindow.left);
-      BigDecimal b2 = new BigDecimal(info.rcWindow.bottom - info.rcWindow.top);
-      BigDecimal b1c = b1.divide(new BigDecimal("2"), 0);
-      BigDecimal b2c = b2.divide(new BigDecimal("2"), 0);
-      WIDTH = info.rcWindow.right;
-      HEIGHT = info.rcClient.bottom;
-      log.info("中心坐标: {} {}  宽度 {} 高度 {}", b1c.intValue(), b2c.intValue(), WIDTH, HEIGHT);
-      CLIENT_CENTER_POINT.setLocation(b1c.intValue(), b2c.intValue());
+      return;
     }
+    WINDOWINFO info = new WINDOWINFO();
+    User32.INSTANCE.GetWindowInfo(hwnd, info);
+    User32.INSTANCE.ShowWindow(hwnd, WinUser.SW_RESTORE);
+    User32.INSTANCE.SetForegroundWindow(hwnd);
+    CLIENT_POINT.setLocation(info.rcWindow.left, info.rcWindow.top);
+    WIDTH = info.rcWindow.right;
+    HEIGHT = info.rcClient.bottom;
+    log.info("客户端坐标：{} {}", CLIENT_POINT.x,CLIENT_POINT.y);
+
+    BigDecimal b1 = new BigDecimal(info.rcWindow.right - info.rcWindow.left);
+    BigDecimal b2 = new BigDecimal(info.rcWindow.bottom - info.rcWindow.top);
+    BigDecimal b1c = b1.divide(new BigDecimal("2"), 0).add(new BigDecimal(info.rcWindow.left));
+    BigDecimal b2c = b2.divide(new BigDecimal("2"), 0).add(new BigDecimal(info.rcWindow.top));;
+
+    log.info("中心坐标: {} {}  宽度 {} 高度 {}", b1c.intValue(), b2c.intValue(), WIDTH, HEIGHT);
+    CLIENT_CENTER_POINT.setLocation(b1c.intValue(), b2c.intValue());
+
+    Points.offsetMap(CLIENT_POINT);
+    Points.offsetPoint(CLIENT_POINT);
+    Points.offsetScreen(CLIENT_POINT);
+    log.info("当前位置：城市 {} 坐标 {}",getCurrCity(),null);
   }
 
   /**
    * 获取当前城市
+   *
    * @return CityEnum
    */
-  public static CityEnum getCurrCity(){
+  public static CityEnum getCurrCity() {
     CityEnum cityEnum = null;
     int loop = 0;
     while (null == cityEnum) {
       loop++;
       Points.Screen screen = Points.getScreen(Points.BASE_CITY);
-      BufferedImage cityImage = RobotUtil.getInstance().createScreenCapture(screen);
+      BufferedImage cityImage = RobotUtil.getInstance().createScreenCaptureAndSave(x->{
 
-        /*try {
-          cityImage = ImageUtil.binaryImage(cityImage);
-        } catch (Exception e) {
-          e.printStackTrace();
-        }*/
-      //ImageUtil.antiColor(cityImage);
-      MyImageUtil.zoomImageAndSave(cityImage, 2, screen.getPath(), "jpg");
-      String city = Tess4jUtil.getInstance().doOCR(cityImage,Tess4jUtil.CHI_LANGUAGE);
+        // 反色处理
+        //ImageUtil.antiColor(x);
+        // 二值化
+        //BufferedImage grayPicture = ImageUtil.binaryImage(x);
+
+        return x;
+      },screen);
+
+
+      String city = Tess4jUtil.getInstance().doOCR(cityImage, Tess4jUtil.CITY_LANGUAGE);
+      log.info("识别结果 :{} | {}",city,screen);
       cityEnum = CityUtil.transCity(city.trim());
-      System.err.println("........................" + JSON.toJSONString(city.trim()));
-      System.err.println("........................" + JSON.toJSONString(cityEnum));
       if (loop > 5) {
         break;
       }
@@ -114,13 +121,13 @@ public class GameContext {
 
   /**
    * 获取当前坐标
+   *
    * @return Point
    */
-  public static Point getCurrPoint(){
+  public static Point getCurrPoint() {
     Points.Screen screen = Points.getScreen(Points.BASE_XY);
-    BufferedImage xyImage = RobotUtil.getInstance().createScreenCapture(screen);
-    MyImageUtil.zoomImageAndSave(xyImage, 3, screen.getPath(), "jpg");
-    String xy =Tess4jUtil.getInstance().doOCR(xyImage,Tess4jUtil.CHI_LANGUAGE);
+    BufferedImage xyImage = RobotUtil.getInstance().createScreenCaptureAndSave(screen);
+    String xy = Tess4jUtil.getInstance().doOCR(xyImage, Tess4jUtil.CHI_LANGUAGE);
     if (StringUtils.isEmpty(xy)) {
       return null;
     }
@@ -128,18 +135,19 @@ public class GameContext {
     if (null == xyArr) {
       return null;
     }
-    return  new Point(xyArr[0],xyArr[1]);
+    return new Point(xyArr[0], xyArr[1]);
   }
 
   /**
    * 获取当前位置
+   *
    * @return MyLocation
    */
   public static MyLocation getMyLocation() {
     MyLocation myLocation = new MyLocation();
     myLocation.setMyCity(getCurrCity());
     Point currPoint = getCurrPoint();
-    if(currPoint!=null){
+    if (currPoint != null) {
       myLocation.setX(currPoint.x);
       myLocation.setY(currPoint.y);
     }

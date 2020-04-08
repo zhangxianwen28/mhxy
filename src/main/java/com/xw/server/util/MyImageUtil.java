@@ -13,19 +13,6 @@ import java.io.File;
 
 public class MyImageUtil {
 
-
-
-    public static void zoomImageAndSave(BufferedImage bufImg,int size,String fileName,String suffix){
-        AffineTransformOp ato = new AffineTransformOp(AffineTransform.getScaleInstance(size, size), null);
-        Image itemp = ato.filter(bufImg, null);
-        File file = new File(fileName);
-        try {
-            ImageIO.write((BufferedImage) itemp,suffix, file); //写入缩减后的图片
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
-
     /**
      * 背景黑色话,文字保留白色
      * @param originalImage
@@ -60,13 +47,5 @@ public class MyImageUtil {
         return grayPicture;
     }
 
-    public static void main(String[] args) throws Exception{
-        ClassPathResource resource = new ClassPathResource("images/verify/battle/battle_cc.jpg");
-        BufferedImage bufferedImage = ImageIO.read(resource.getFile());
-        //File file  =new File("E:/work/mhxy/target/classes/images/verify/battle_cc.jpg");
-        System.out.println(resource.getPath());
-        System.out.println(resource.getFile().getPath());
 
-        //zoomImageAndSave(bufferedImage,3, String.valueOf(resource.getURI()),"png");
-    }
 }

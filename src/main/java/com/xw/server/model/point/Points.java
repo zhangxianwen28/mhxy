@@ -1,19 +1,25 @@
 package com.xw.server.model.point;
 
+import com.google.common.reflect.ClassPath;
+import com.xw.server.context.GameContext;
 import com.xw.server.model.CityEnum;
 import com.xw.server.model.CityTrees.CityTree;
+import java.io.IOException;
 import lombok.Data;
 
 import java.awt.Point;
 import java.util.HashMap;
 import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.ClassPathResource;
 
 
 /**
  * 坐标
  */
+@Slf4j
 public class Points {
-    public final static String IMAGE_SUFFIX = "jpg";
+    public final static String IMAGE_SUFFIX = "png";
 
     /**
      * 迷你地图
@@ -173,15 +179,37 @@ public class Points {
         screenMap.put(FIGHT_CC, new Screen(new Point(18,219),12,12,""));
         screenMap.put(FIGHT_TIME, new Screen(new Point(395,68),226,188,""));
         screenMap.put(FIGHT_GD, new Screen(new Point(896,692),46,25,""));
-        screenMap.put(BASE_XY, new Screen(new Point(39,146),120,17,""));
-        screenMap.put(BASE_CITY, new Screen(new Point(46,67),100,25,""));
+        screenMap.put(BASE_XY, new Screen(new Point(39,146),120,17,"temp/current_xy"));
+        screenMap.put(BASE_CITY, new Screen(new Point(46,67),100,25,"temp/current_city"));
 
     }
 
     public static Attribute getMap(String key) {
         return map.get(key);
     }
-
+    public static void offsetMap(Point point) {
+        map.forEach((k,v)->{
+            Point p  = v.getPoint1();
+            p.setLocation(p.x+point.x,p.y+point.y);
+        });
+    }
+    public static void offsetPoint(Point point) {
+        basePoint.forEach((k,v)->{
+            v.setLocation(v.x+point.x,v.y+point.y);
+        });
+    }
+    public static void offsetScreen(Point point) {
+        screenMap.forEach((k,v)->{
+            Point p  = v.getStartPoint();
+            p.setLocation(p.x+point.x,p.y+point.y);
+           /* ClassPathResource res = new ClassPathResource(v.path);
+            try {
+                v.setPath(res.getFile().getPath());
+            } catch (IOException e) {
+                log.error("初始化文件路径失败");
+            }*/
+        });
+    }
     public static Point getPoint(String key) {
         return basePoint.get(key);
     }
