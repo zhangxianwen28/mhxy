@@ -3,6 +3,7 @@ package com.xw.server;
 import com.xw.server.context.GameContext;
 import com.xw.server.service.TaskService;
 import com.xw.server.service.TaskServiceImpl;
+import com.xw.server.service.auto.AutoCombatService;
 import org.jnativehook.GlobalScreen;
 import org.jnativehook.NativeHookException;
 import org.jnativehook.dispatcher.DefaultDispatchService;
@@ -27,6 +28,7 @@ public class GameRun {
 
   public static void main(String[] args) throws Exception {
     GameContext.init();
+    AutoCombatService.start();
     //TaskService taskService = new TaskServiceImpl();
     //taskService.doTask(null);
 

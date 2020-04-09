@@ -176,9 +176,9 @@ public class Points {
 
 
         //截图坐标
-        screenMap.put(FIGHT_CC, new Screen(new Point(18,219),12,12,""));
-        screenMap.put(FIGHT_TIME, new Screen(new Point(395,68),226,188,""));
-        screenMap.put(FIGHT_GD, new Screen(new Point(896,692),46,25,""));
+        screenMap.put(FIGHT_CC, new Screen(new Point(24,224),15,15,"temp/current_cc"));
+        screenMap.put(FIGHT_TIME, new Screen(new Point(395,68),226,188,"temp/current_time"));
+        screenMap.put(FIGHT_GD, new Screen(new Point(900,700),40,24,"temp/current_gd"));
         screenMap.put(BASE_XY, new Screen(new Point(39,146),120,17,"temp/current_xy"));
         screenMap.put(BASE_CITY, new Screen(new Point(46,67),100,25,"temp/current_city"));
 
@@ -279,6 +279,11 @@ public class Points {
             this.width = width;
             this.height = height;
             this.path = path;
+        }
+
+        public Screen initVerifyImage(){
+            Screen screen = new Screen(new Point(startPoint.x+2,startPoint.y+2),width-2,height-2,path);
+            return screen;
         }
     }
 }

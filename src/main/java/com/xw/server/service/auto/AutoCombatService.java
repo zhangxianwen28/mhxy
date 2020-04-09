@@ -61,13 +61,14 @@ public class AutoCombatService {
         try {
           int r = 0;
           while (battleFlag.getAndSet(verify.checkBattle())) {
-            log.info("战斗 : 第 {} 回合", r);
+            log.info("遭遇战: 第 {} 回合", r);
             while (verify.checkBattleVerify() && r == 0) {
-
+              log.info("遭遇战: 人物朝向验证");
               Toolkit.getDefaultToolkit().beep();
               Thread.sleep(5000);
             }
             while (verify.checkBattleTiming()) {
+              log.info("遭遇战:  攻击");
               RobotUtil.getInstance().ALT_A().ALT_A();
               Thread.sleep(5000);
             }

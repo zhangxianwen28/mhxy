@@ -84,7 +84,7 @@ public class GameContext {
     Points.offsetMap(CLIENT_POINT);
     Points.offsetPoint(CLIENT_POINT);
     Points.offsetScreen(CLIENT_POINT);
-    log.info("当前位置：城市 {} 坐标 {}",getCurrCity(),null);
+    log.info("当前位置：城市 {} 坐标 {}",getCurrCity(),getCurrPoint());
   }
 
   /**
@@ -127,11 +127,12 @@ public class GameContext {
   public static Point getCurrPoint() {
     Points.Screen screen = Points.getScreen(Points.BASE_XY);
     BufferedImage xyImage = RobotUtil.getInstance().createScreenCaptureAndSave(screen);
-    String xy = Tess4jUtil.getInstance().doOCR(xyImage, Tess4jUtil.CHI_LANGUAGE);
+    String xy = Tess4jUtil.getInstance().doOCR(xyImage, Tess4jUtil.XY_LANGUAGE);
     if (StringUtils.isEmpty(xy)) {
       return null;
     }
     int[] xyArr = getXY(xy);
+    log.info("识别结果 :{} | {}",xy,screen);
     if (null == xyArr) {
       return null;
     }
