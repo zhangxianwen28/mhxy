@@ -89,9 +89,11 @@ public class OperationServiceImpl implements OperationService {
   public void moveByMiniMap(Attribute attribute) {
     int x;
     int y;
-    do {
+
       AutoCombatService.waitSecurity();
-      RobotUtil.getInstance().TAB().mouseMove(attribute.getPoint1(), 1000).click(1, 1000).TAB();
+      RobotUtil.getInstance().TAB().mousePreciseMove(attribute.getPoint1(), 1000).click(1, 1000).TAB();
+
+    do {
       try {
         Thread.sleep(attribute.getSleepTime());
       } catch (InterruptedException e) {
@@ -100,7 +102,8 @@ public class OperationServiceImpl implements OperationService {
       Point currPoint = GameContext.getCurrPoint();
       x = currPoint.x - (int) attribute.getPoint1v().getX();
       y = currPoint.y - (int) attribute.getPoint1v().getY();
-    } while (Math.abs(x) < 10 && Math.abs(y) < 10);
+      log.info(" 验证结果 {} {}",Math.abs(x) < 5,Math.abs(y) < 5);
+    } while (Math.abs(x) > 5 && Math.abs(y) > 5);
   }
 
   @Override

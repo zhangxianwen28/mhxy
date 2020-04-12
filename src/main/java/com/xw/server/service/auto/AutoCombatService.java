@@ -40,7 +40,7 @@ public class AutoCombatService {
   /**
    * 结束自动战斗
    */
-  public static void stop(){
+  public static void end(){
     endFlag.compareAndSet(false,true);
   }
 
@@ -59,27 +59,31 @@ public class AutoCombatService {
           return;
         }
         try {
-          int r = 0;
+          int r = 1;
           while (battleFlag.getAndSet(verify.checkBattle())) {
-            log.info("遭遇战: 第 {} 回合", r);
-            while (verify.checkBattleVerify() && r == 0) {
-              log.info("遭遇战: 人物朝向验证");
+            verify.initVerifyFC();
+            while (verify.checkBattleVerify() && r == 1) {
+              log.info("战斗验证: 人物朝向验证");
               Toolkit.getDefaultToolkit().beep();
               Thread.sleep(5000);
             }
-            while (verify.checkBattleTiming()) {
-              log.info("遭遇战:  攻击");
-              RobotUtil.getInstance().ALT_A().ALT_A();
-              Thread.sleep(5000);
+            if (!verify.checkBattleTiming()) {
+              Thread.sleep(2000);
+              log.info("攻击！！ : 第 {} 回合",r);
+              RobotUtil.getInstance().ALT_A();
+              r++;
             }
-            r++;
+            Thread.sleep(1000);
+          }
+          if(r!=1){
+            log.info("战斗结束");
           }
         } catch (InterruptedException | IOException e) {
           e.printStackTrace();
         }
         try {
           // 巡查频率
-          Thread.sleep(500);
+          Thread.sleep(1000);
         } catch (InterruptedException e) {
           e.printStackTrace();
         }

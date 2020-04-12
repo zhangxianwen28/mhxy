@@ -1,6 +1,7 @@
 package com.xw.server;
 
 import com.xw.server.context.GameContext;
+import com.xw.server.model.TaskInfo;
 import com.xw.server.service.TaskService;
 import com.xw.server.service.TaskServiceImpl;
 import com.xw.server.service.auto.AutoCombatService;
@@ -28,9 +29,8 @@ public class GameRun {
 
   public static void main(String[] args) throws Exception {
     GameContext.init();
-    AutoCombatService.start();
-    //TaskService taskService = new TaskServiceImpl();
-    //taskService.doTask(null);
+    TaskService taskService = new TaskServiceImpl();
+    taskService.doTask(new TaskInfo());
 
   }
 
@@ -50,7 +50,7 @@ public class GameRun {
         public void nativeKeyPressed(NativeKeyEvent nativeKeyEvent) {
           if (NativeKeyEvent.getKeyText(nativeKeyEvent.getKeyCode()).equals("1")) {
             //test();
-            Mat template = Imgcodecs.imread("D:\\tmp\\02.png");//待匹配图片
+            Mat template = Imgcodecs.imread("D:\\tmp\\mouse.png");//待匹配图片
             HighGui.imshow("模板匹配", template);
             HighGui.waitKey();
             //cc(template);

@@ -71,13 +71,11 @@ public abstract class SiteState {
     Collections.reverse(paths);
     paths.forEach(x -> {
       if(x.getCityTree().getChildren().isEmpty()){
-        //rb.peopleMove(miniMap., miniMap.getVif2());
+        rb.peopleMove(x.getPoint2(),x.getPoint2v());
       }else {
         convey(x);
       }
       print(x.getCityTree().getCityName());
-
-
     });
   }
 
@@ -85,14 +83,16 @@ public abstract class SiteState {
 
   public void convey(Attribute attribute, CallBackFun fun) {
     // 通过地图移动
-    //rb.moveByMiniMap(miniMap);
+    rb.moveByMiniMap(attribute);
     fun.callback();
   }
 
-  public void convey(Attribute attribute) {
-    //rb.moveByMiniMap(miniMap);
+  public void  convey(Attribute attribute) {
+    log.info("1.移动By Mini地图");
+      rb.moveByMiniMap(attribute);
     // 通过地图移动传送
-    //rb.peopleMove(miniMap.getCompensatePoint(), miniMap.getVif2());
+    log.info("2.通过地图移动传送");
+    rb.peopleMove(attribute.getPoint2(),attribute.getPoint2v());
   }
 
   public void print(String city) {

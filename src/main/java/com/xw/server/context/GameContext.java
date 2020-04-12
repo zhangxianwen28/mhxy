@@ -112,7 +112,7 @@ public class GameContext {
       String city = Tess4jUtil.getInstance().doOCR(cityImage, Tess4jUtil.CITY_LANGUAGE);
       log.info("识别结果 :{} | {}",city,screen);
       cityEnum = CityUtil.transCity(city.trim());
-      if (loop > 5) {
+      if (loop > 1) {
         break;
       }
     }

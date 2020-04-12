@@ -3,6 +3,7 @@ package com.xw.server.util;
 import com.xw.server.function.CallBackFun;
 import com.xw.server.function.PretreatmentFun;
 import com.xw.server.model.point.Points;
+import com.xw.server.model.point.Points.Screen;
 import com.xw.server.util.opencv.OpenCVUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.opencv.core.Mat;
@@ -109,11 +110,14 @@ public class RobotUtil {
         // 第一次移动
         mouseMove(point, ms);
         double[] mach = null;
-        int w = 180;
-        int h = 180;
-        //OpenCVUtil.pointerSample(point, w, h);
-        Mat template = Imgcodecs.imread("D:\\tmp\\02.png");//样板图片
-        Mat src = Imgcodecs.imread("D:\\IdeaProjects\\idea\\" + 1 + ".png");//待匹配图片
+        int w = 220;
+        int h = 220;
+        int pw = w / 2;
+        int ph = h / 2;
+        Points.Screen screen  = new Screen(new Point(point.x - pw, point.y - ph),w,h,"temp/current_pt");
+        RobotUtil.getInstance().createScreenCaptureAndSave(screen);
+        Mat template = Imgcodecs.imread("D:\\IdeaProjects\\mhxy\\src\\main\\resources\\images\\mouse.png");//样板图片
+        Mat src = Imgcodecs.imread("D:\\IdeaProjects\\mhxy\\temp\\current_pt.png");//待匹配图片
         mach = OpenCVUtil.mach(src, template);
 
         BigDecimal px = new BigDecimal(w / 2 + "").subtract(new BigDecimal(mach[1] + ""));
@@ -131,11 +135,10 @@ public class RobotUtil {
         } else {
             ny.add(py);
         }
-        log.info("Reslut : x{}  y{}  偏移:x {}  y{}", mach[1], mach[2], nx.intValue(), ny.intValue());
+        //log.info("Reslut : x{}  y{}  偏移:x {}  y{}", mach[1], mach[2], nx.intValue(), ny.intValue());
 
         Point point2 = new Point(nx.intValue(), ny.intValue());
         // 第二次移动
-        log.info("第二次移动 : {}", point2.toString());
         mouseMove(point2, ms);
         return this;
     }
@@ -143,8 +146,7 @@ public class RobotUtil {
 
     public RobotUtil mouseMove(Point point, int ms) {
         for (int count = 0;
-             (MouseInfo.getPointerInfo().getLocation().getX() != point.getX()
-                     || MouseInfo.getPointerInfo().getLocation().getY() != point.getY())
+             (MouseInfo.getPointerInfo().getLocation().getX() != point.getX()|| MouseInfo.getPointerInfo().getLocation().getY() != point.getY())
                      &&
                      count < 100; count++) {
             robot.mouseMove((int) point.getX(), (int) point.getY());

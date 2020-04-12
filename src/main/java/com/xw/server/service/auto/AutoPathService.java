@@ -47,11 +47,11 @@ public class AutoPathService {
     autoPathService.setStatus(currCity);
 
     log.info("路线： {} >> {}", currCity.getCityName(),targetCity.getCityName());
-    //AutoCombatContext.start();
+    AutoCombatService.start();
     while (true) {
       if (autoPathService.getCurrCity().getCity().equals(autoPathService.getTargetCity().getCity())) {
         log.info("到达目的地.");
-        //AutoCombatContext.end();
+        AutoCombatService.end();
         return ;
       }
       autoPathService.getLinkState().autoPath(autoPathService);

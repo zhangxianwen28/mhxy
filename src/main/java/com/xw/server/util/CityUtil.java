@@ -6,7 +6,9 @@ import com.xw.server.model.CityEnum;
 public class CityUtil {
 
   public static CityEnum transCity(String cityStr) {
-
+    if("城城城".equals(cityStr) ||"城城城城".equals(cityStr)){
+      return CityEnum.CAC;
+    }
     if ("建邺捕".equals(cityStr)
         || "津邺捕".equals(cityStr)
         || "建邺城".equals(cityStr) || "城邺城".equals(cityStr)) {

@@ -1,17 +1,13 @@
 package com.xw.server.model.point;
 
-import com.google.common.reflect.ClassPath;
-import com.xw.server.context.GameContext;
 import com.xw.server.model.CityEnum;
 import com.xw.server.model.CityTrees.CityTree;
-import java.io.IOException;
 import lombok.Data;
 
 import java.awt.Point;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.io.ClassPathResource;
 
 
 /**
@@ -99,7 +95,7 @@ public class Points {
      * 战斗验证
      */
     public final static String FIGHT_CC = "FIGHT_CC"; //
-    public final static String FIGHT_TIME = "FIGHT_TIME"; //
+    public final static String FIGHT_TP = "FIGHT_TP"; //
     public final static String FIGHT_GD = "FIGHT_GD"; //
     public final static String BASE_XY = "BASE_XY"; //
     public final static String BASE_CITY = "BASE_CITY"; //
@@ -111,7 +107,8 @@ public class Points {
 
     static {
         // 初始化地图坐标
-        map.put(MAP_CAC_CFBJ, new Attribute(new Point(), new Point(), 1000));
+        map.put(MAP_CAC_CFBJ, new Attribute(new Point(933,351), new Point(522,152),new Point(527,157),CityEnum.CFBJ,
+            1000));
         map.put(MAP_CAC_QQF, new Attribute(new Point(), new Point(), 1000));
         map.put(MAP_CAC_DTGF, new Attribute(new Point(), new Point(), 1000));
         map.put(MAP_CAC_JD, new Attribute(new Point(), new Point(), 1000));
@@ -177,8 +174,8 @@ public class Points {
 
         //截图坐标
         screenMap.put(FIGHT_CC, new Screen(new Point(24,224),15,15,"temp/current_cc"));
-        screenMap.put(FIGHT_TIME, new Screen(new Point(395,68),226,188,"temp/current_time"));
-        screenMap.put(FIGHT_GD, new Screen(new Point(900,700),40,24,"temp/current_gd"));
+        screenMap.put(FIGHT_TP, new Screen(new Point(1060,683),26,24,"temp/current_tp"));
+        screenMap.put(FIGHT_GD, new Screen(new Point(1146,876),40,24,"temp/current_gd"));
         screenMap.put(BASE_XY, new Screen(new Point(39,146),120,17,"temp/current_xy"));
         screenMap.put(BASE_CITY, new Screen(new Point(46,67),100,25,"temp/current_city"));
 
@@ -202,12 +199,6 @@ public class Points {
         screenMap.forEach((k,v)->{
             Point p  = v.getStartPoint();
             p.setLocation(p.x+point.x,p.y+point.y);
-           /* ClassPathResource res = new ClassPathResource(v.path);
-            try {
-                v.setPath(res.getFile().getPath());
-            } catch (IOException e) {
-                log.error("初始化文件路径失败");
-            }*/
         });
     }
     public static Point getPoint(String key) {
@@ -228,6 +219,14 @@ public class Points {
         private CityEnum point2v; //目的地
         private CityTree cityTree;
         private long sleepTime;
+
+        public Attribute(Point point1, Point point1v, Point point2, CityEnum point2v, long sleepTime) {
+            this.point1 = point1;
+            this.point1v = point1v;
+            this.point2 = point2;
+            this.point2v = point2v;
+            this.sleepTime = sleepTime;
+        }
 
         public Attribute(Point point1, Point point1v, long sleepTime) {
             this.point1 = point1;
