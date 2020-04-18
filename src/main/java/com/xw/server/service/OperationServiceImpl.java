@@ -1,15 +1,15 @@
 package com.xw.server.service;
 
-import com.xw.server.service.auto.AutoCombatService;
 import com.xw.server.context.GameContext;
 import com.xw.server.model.CityEnum;
 import com.xw.server.model.MyLocation;
 import com.xw.server.model.point.Points.Attribute;
+import com.xw.server.service.auto.AutoCombatService;
 import com.xw.server.util.RandomUtil;
 import com.xw.server.util.RobotUtil;
+import java.awt.MouseInfo;
+import java.awt.Point;
 import lombok.extern.slf4j.Slf4j;
-
-import java.awt.*;
 
 /**
  * @Auther: xw.z
@@ -43,6 +43,9 @@ public class OperationServiceImpl implements OperationService {
     int x;
     int y;
     do {
+      AutoCombatService.waitSecurity();
+      GameContext.waitMoveEnd();
+
       MyLocation location = GameContext.getMyLocation();
       if (null != city && city.equals(location.getMyCity())) {
         break;
@@ -77,8 +80,8 @@ public class OperationServiceImpl implements OperationService {
           log.info("Y轴向下  {} + {} = {} ", cty, getMaxPointY(yy), cty + getMaxPointY(yy));
         }
       }
-      AutoCombatService.waitSecurity();
-      RobotUtil.getInstance().mouseMove(new Point(ctx, cty), RandomUtil.getRandomDelay(500)).click(1, 1000);
+
+      RobotUtil.getInstance().mouseMove(new Point(ctx, cty), 100).click(1, 1000);
 
     } while (Math.abs(x) < maxStep && Math.abs(y) < maxStep);
     log.info("已靠近目标点");
@@ -90,20 +93,48 @@ public class OperationServiceImpl implements OperationService {
     int x;
     int y;
 
-      AutoCombatService.waitSecurity();
-      RobotUtil.getInstance().TAB().mousePreciseMove(attribute.getPoint1(), 1000).click(1, 1000).TAB();
-
+    AutoCombatService.waitSecurity();
+    RobotUtil.getInstance().TAB().mousePreciseMove(attribute.getPoint1(), 1000).click(1, 40);
     do {
-      try {
-        Thread.sleep(attribute.getSleepTime());
-      } catch (InterruptedException e) {
-        e.printStackTrace();
+      Point currPoint = GameContext.waitMoveEnd();
+
+      x = (int) attribute.getPoint1v().getX() - currPoint.x;
+      y = (int) attribute.getPoint1v().getY() - currPoint.y;
+
+      int xx = MouseInfo.getPointerInfo().getLocation().x;
+      int yy = MouseInfo.getPointerInfo().getLocation().y;
+      // 当偏移量大于3时,直接使用偏移量作为参数
+      Point point = new Point(xx, yy);
+      if (x > 0) { //100 100
+        if (x > 3) {
+          point.setLocation(x + point.x, point.y);
+        } else {
+          point.setLocation(++point.x, point.y);
+        }
+      } else if (x < 0) {
+        if (x < -3) {
+          point.setLocation(x - point.x, point.y);
+        } else {
+          point.setLocation(--point.x, point.y);
+        }
       }
-      Point currPoint = GameContext.getCurrPoint();
-      x = currPoint.x - (int) attribute.getPoint1v().getX();
-      y = currPoint.y - (int) attribute.getPoint1v().getY();
-      log.info(" 验证结果 {} {}",Math.abs(x) < 5,Math.abs(y) < 5);
-    } while (Math.abs(x) > 5 && Math.abs(y) > 5);
+      if (y > 0) {
+        if (y > 3) {
+          point.setLocation(point.x, y - point.y);
+        } else {
+          point.setLocation(point.x, --point.y);
+        }
+      } else if (y < 0) {
+        if (y < -3) {
+          point.setLocation(point.x, y + point.y);
+        } else {
+          point.setLocation(point.x, ++point.y);
+        }
+      }
+      //log.info("当前游戏坐标{}  {} {} {}", currPoint, point, x, y);
+      RobotUtil.getInstance().mouseMove(point, 40).click(1, 40);
+    } while (Math.abs(x) != 0 || Math.abs(y) != 0);
+    RobotUtil.getInstance().TAB();
   }
 
   @Override

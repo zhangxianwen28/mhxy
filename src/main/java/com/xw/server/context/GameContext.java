@@ -1,6 +1,5 @@
 package com.xw.server.context;
 
-import com.alibaba.fastjson.JSON;
 import com.sun.jna.Native;
 import com.sun.jna.platform.win32.User32;
 import com.sun.jna.platform.win32.WinDef.HWND;
@@ -14,9 +13,11 @@ import com.xw.server.util.ImageUtil;
 import com.xw.server.util.MyImageUtil;
 import com.xw.server.util.RobotUtil;
 import com.xw.server.util.Tess4jUtil;
+import java.awt.Color;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.math.BigDecimal;
+import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
@@ -71,12 +72,13 @@ public class GameContext {
     CLIENT_POINT.setLocation(info.rcWindow.left, info.rcWindow.top);
     WIDTH = info.rcWindow.right;
     HEIGHT = info.rcClient.bottom;
-    log.info("客户端坐标：{} {}", CLIENT_POINT.x,CLIENT_POINT.y);
+    log.info("客户端坐标：{} {}", CLIENT_POINT.x, CLIENT_POINT.y);
 
     BigDecimal b1 = new BigDecimal(info.rcWindow.right - info.rcWindow.left);
     BigDecimal b2 = new BigDecimal(info.rcWindow.bottom - info.rcWindow.top);
     BigDecimal b1c = b1.divide(new BigDecimal("2"), 0).add(new BigDecimal(info.rcWindow.left));
-    BigDecimal b2c = b2.divide(new BigDecimal("2"), 0).add(new BigDecimal(info.rcWindow.top));;
+    BigDecimal b2c = b2.divide(new BigDecimal("2"), 0).add(new BigDecimal(info.rcWindow.top));
+    ;
 
     log.info("中心坐标: {} {}  宽度 {} 高度 {}", b1c.intValue(), b2c.intValue(), WIDTH, HEIGHT);
     CLIENT_CENTER_POINT.setLocation(b1c.intValue(), b2c.intValue());
@@ -84,7 +86,7 @@ public class GameContext {
     Points.offsetMap(CLIENT_POINT);
     Points.offsetPoint(CLIENT_POINT);
     Points.offsetScreen(CLIENT_POINT);
-    log.info("当前位置：城市 {} 坐标 {}",getCurrCity(),getCurrPoint());
+    log.info("当前位置：城市 {} 坐标 {}", getCurrCity(), getCurrPoint());
   }
 
   /**
@@ -98,19 +100,17 @@ public class GameContext {
     while (null == cityEnum) {
       loop++;
       Points.Screen screen = Points.getScreen(Points.BASE_CITY);
-      BufferedImage cityImage = RobotUtil.getInstance().createScreenCaptureAndSave(x->{
-
+      BufferedImage cityImage = RobotUtil.getInstance().createScreenCaptureAndSave(x -> {
         // 反色处理
-        //ImageUtil.antiColor(x);
+        ImageUtil.antiColor(x);
+        BufferedImage huidu = MyImageUtil.getGrayPicture(x);
         // 二值化
         //BufferedImage grayPicture = ImageUtil.binaryImage(x);
+        return huidu;
+      }, screen);
 
-        return x;
-      },screen);
-
-
-      String city = Tess4jUtil.getInstance().doOCR(cityImage, Tess4jUtil.CITY_LANGUAGE);
-      log.info("识别结果 :{} | {}",city,screen);
+      String city = Tess4jUtil.getInstance().doOCR(cityImage, Tess4jUtil.CHI_LANGUAGE);
+      //log.info("识别结果 :{} ", city);
       cityEnum = CityUtil.transCity(city.trim());
       if (loop > 1) {
         break;
@@ -132,7 +132,7 @@ public class GameContext {
       return null;
     }
     int[] xyArr = getXY(xy);
-    log.info("识别结果 :{} | {}",xy,screen);
+    //log.info("识别结果 :{} | {}", xy, screen);
     if (null == xyArr) {
       return null;
     }
@@ -167,4 +167,22 @@ public class GameContext {
       return null;
     }
   }
+
+  public static Point waitMoveEnd() {
+    Point currPoint;
+    Point currPoint2;
+    do {
+       currPoint = getCurrPoint();
+      try {
+        Thread.sleep(2000);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
+       currPoint2 = getCurrPoint();
+    }while (!Objects.equals(currPoint, currPoint2));
+    log.info("wait:{}{}",currPoint,currPoint2);
+    return currPoint2;
+  }
+
+
 }

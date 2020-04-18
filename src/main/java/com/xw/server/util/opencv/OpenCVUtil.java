@@ -37,7 +37,7 @@ public class OpenCVUtil {
     Imgproc.matchTemplate(src, template, result, method);
     Core.normalize(result, result, 0, 1, Core.NORM_MINMAX, -1, new Mat());
     MinMaxLocResult mmr = Core.minMaxLoc(result);
-    System.out.println("result  maxVal :" + mmr.maxVal + "");
+    //System.out.println("result  maxVal :" + mmr.maxVal + "");
     double x, y;
     if (method == Imgproc.TM_SQDIFF_NORMED || method == Imgproc.TM_SQDIFF) {
       x = mmr.minLoc.x;
@@ -48,12 +48,12 @@ public class OpenCVUtil {
     }
     Imgproc.rectangle(src, new org.opencv.core.Point(x, y),
         new org.opencv.core.Point(x + template.cols(), y + template.rows()), new Scalar(0, 0,
-            255), 2, Imgproc.LINE_AA);
+            255), 1, Imgproc.LINE_AA);
     BufferedImage image = (BufferedImage) HighGui.toBufferedImage(src);
     RobotUtil.getInstance().write(image, System.currentTimeMillis()+" 模板匹配结果");
 
     res[0] = mmr.maxVal;
-    res[1] = x;
+    res[1] = x+2;
     res[2] = y;
     return res;
   }

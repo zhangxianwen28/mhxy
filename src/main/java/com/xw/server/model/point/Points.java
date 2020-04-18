@@ -107,7 +107,7 @@ public class Points {
 
     static {
         // 初始化地图坐标
-        map.put(MAP_CAC_CFBJ, new Attribute(new Point(933,351), new Point(522,152),new Point(527,157),CityEnum.CFBJ,
+        map.put(MAP_CAC_CFBJ, new Attribute(new Point(976,458), new Point(522,152),new Point(527,157),CityEnum.CFBJ,
             1000));
         map.put(MAP_CAC_QQF, new Attribute(new Point(), new Point(), 1000));
         map.put(MAP_CAC_DTGF, new Attribute(new Point(), new Point(), 1000));
@@ -176,8 +176,8 @@ public class Points {
         screenMap.put(FIGHT_CC, new Screen(new Point(24,224),15,15,"temp/current_cc"));
         screenMap.put(FIGHT_TP, new Screen(new Point(1060,683),26,24,"temp/current_tp"));
         screenMap.put(FIGHT_GD, new Screen(new Point(1146,876),40,24,"temp/current_gd"));
-        screenMap.put(BASE_XY, new Screen(new Point(39,146),120,17,"temp/current_xy"));
-        screenMap.put(BASE_CITY, new Screen(new Point(46,67),100,25,"temp/current_city"));
+        screenMap.put(BASE_XY, new Screen(new Point(39,146),125,17,"temp/current_xy"));
+        screenMap.put(BASE_CITY, new Screen(new Point(46,67),100,24,"temp/current_city"));
 
     }
 

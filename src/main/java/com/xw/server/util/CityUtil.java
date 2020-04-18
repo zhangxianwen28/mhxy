@@ -6,12 +6,14 @@ import com.xw.server.model.CityEnum;
 public class CityUtil {
 
   public static CityEnum transCity(String cityStr) {
-    if("城城城".equals(cityStr) ||"城城城城".equals(cityStr)){
+    if(cityStr!=null){
+      cityStr = cityStr.replace(" ","");
+    }
+    System.out.println(cityStr);
+    if("长安挂".equals(cityStr) ){
       return CityEnum.CAC;
     }
-    if ("建邺捕".equals(cityStr)
-        || "津邺捕".equals(cityStr)
-        || "建邺城".equals(cityStr) || "城邺城".equals(cityStr)) {
+    if ("建邡挂".equals(cityStr)) {
       return CityEnum.JYC;
     }
     if ("东悔湾".equals(cityStr)
@@ -24,9 +26,6 @@ public class CityUtil {
         || "龙古口".equals(cityStr)
         || "水晶莒".equals(cityStr)) {
       return CityEnum.LG;
-    }
-    if ("长安城".equals(cityStr)) {
-      return CityEnum.CAC;
     }
     if ("江南野外".equals(cityStr)) {
       return CityEnum.JNYW;
@@ -47,7 +46,7 @@ public class CityUtil {
     if ("化生寺".equals(cityStr)) {
       return CityEnum.HSS;
     }
-    if ("傲耒国".equals(cityStr)) {
+    if ("傲朱国".equals(cityStr)) {
       return CityEnum.ALG;
     }
     if ("女儿村".equals(cityStr)) {
@@ -77,7 +76,7 @@ public class CityUtil {
     if ("程咬金府".equals(cityStr)) {
       return CityEnum.CYJF;
     }
-    if ("长风镖局".equals(cityStr)) {
+    if ("长风摸局".equals(cityStr)) {
       return CityEnum.CFBJ;
     }
     if ("旺慕".equals(cityStr)) {
