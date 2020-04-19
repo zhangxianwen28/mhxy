@@ -1,7 +1,7 @@
 package com.xw.server.service;
 
 import com.xw.server.model.CityEnum;
-import com.xw.server.model.point.Points.Attribute;
+import com.xw.server.model.point.MapAttribute.MiniMapParam;
 
 import java.awt.*;
 
@@ -20,7 +20,7 @@ public interface OperationService {
   /**
    * 移动人物通过迷你地图
    */
-  void moveByMiniMap(Attribute map) ;
+  void moveByMiniMap(MiniMapParam map) ;
 
   /**
    * 打开背包使用道具

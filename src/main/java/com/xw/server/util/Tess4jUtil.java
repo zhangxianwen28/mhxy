@@ -32,6 +32,7 @@ public class Tess4jUtil {
         iTesseract = new Tesseract();
         //设置训练库的位置
         iTesseract.setDatapath(TESS4J_PATH);
+        iTesseract.setTessVariable("user_defined_dpi", "300");
     }
 
     public static Tess4jUtil getInstance() {

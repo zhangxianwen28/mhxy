@@ -59,8 +59,6 @@ public class OpenCVUtil {
   }
 
  public static void pointerSample(Points.Screen screen) {
-/*    int pw = w / 2;
-    int ph = h / 2;*/
     BufferedImage a = RobotUtil.getInstance().createScreenCaptureAndSave(screen);
   }
 }

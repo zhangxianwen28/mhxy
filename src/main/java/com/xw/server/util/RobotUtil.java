@@ -111,14 +111,13 @@ public class RobotUtil {
     Points.Screen screen1 = new Screen(new Point(point.x - 50, point.y - 50), w, h, "temp/current_ms");
     RobotUtil.getInstance().createScreenCaptureAndSave(screen1);
 
-
     Mat template = Imgcodecs.imread("D:\\IdeaProjects\\mhxy\\src\\main\\resources\\images\\mouse.png");//样板图片
     Mat src = Imgcodecs.imread("D:\\IdeaProjects\\mhxy\\temp\\current_ms.png");//待匹配图片
     double[] mach = OpenCVUtil.mach(src, template);
 
     int nx = point.x+50-(int)mach[1];
     int ny = point.y+50-(int)mach[2];
-    log.error("Result : point{}  {}{}  偏移:x {}  y{}",mach[1],mach[2], point, nx,ny);
+    //log.error("Result : point{}  {}{}  偏移:x {}  y{}",mach[1],mach[2], point, nx,ny);
     Point point2 = new Point(nx, ny);
     // 第二次移动
     mouseMove(point2, ms);

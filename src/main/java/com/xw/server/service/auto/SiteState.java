@@ -4,8 +4,8 @@ import com.xw.server.function.CallBackFun;
 import com.xw.server.model.CityEnum;
 import com.xw.server.model.CityTrees;
 import com.xw.server.model.CityTrees.CityTree;
+import com.xw.server.model.point.MapAttribute;
 import com.xw.server.model.point.Points;
-import com.xw.server.model.point.Points.Attribute;
 import com.xw.server.service.OperationService;
 import com.xw.server.service.OperationServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -27,12 +27,12 @@ public abstract class SiteState {
    * @param cityTree
    * @param attributes
    */
-  private static void findPath(CityTree cityTree, List<Points.Attribute> attributes) {
+  private static void findPath(CityTree cityTree, List<MapAttribute> attributes) {
     if (!cityTree.isHasParent()) {
       return;
     }
     String key = "MAP_" + cityTree.getParentCity() + "_" + cityTree.getCity();
-    Attribute attribute = Points.getMap(key);
+    MapAttribute attribute = Points.getMap(key);
     attribute.setCityTree(cityTree);
     attributes.add(attribute);
     findPath(cityTree.getParent(), attributes);
@@ -66,12 +66,13 @@ public abstract class SiteState {
    * @param tg
    */
   public void autoPath(CityEnum tg) {
-    List<Attribute> paths = new ArrayList<>();
+    List<MapAttribute> paths = new ArrayList<>();
     findPath(CityTrees.allTreeMap.get(tg.getCity()), paths);
     Collections.reverse(paths);
     paths.forEach(x -> {
+      //如果是叶子节点,是没有小地图的只能通过人物进行移动
       if(x.getCityTree().getChildren().isEmpty()){
-        rb.peopleMove(x.getPoint2(),x.getPoint2v());
+        rb.peopleMove(x.getPeopleMoveParam().getPoint(),x.getPeopleMoveParam().getTargetCity());
       }else {
         convey(x);
       }
@@ -81,18 +82,18 @@ public abstract class SiteState {
 
   abstract void autoPath(AutoPathService context);
 
-  public void convey(Attribute attribute, CallBackFun fun) {
+  public void convey(MapAttribute attribute, CallBackFun fun) {
     // 通过地图移动
-    rb.moveByMiniMap(attribute);
+    rb.moveByMiniMap(attribute.getMiniMapParam());
     fun.callback();
   }
 
-  public void  convey(Attribute attribute) {
-    log.info("1.移动By Mini地图");
-      rb.moveByMiniMap(attribute);
+  public void convey(MapAttribute attribute) {
+    log.info("1.使用地图移动");
+      rb.moveByMiniMap(attribute.getMiniMapParam());
     // 通过地图移动传送
-    log.info("2.通过地图移动传送");
-    rb.peopleMove(attribute.getPoint2(),attribute.getPoint2v());
+    log.info("2.人物移动");
+    rb.peopleMove(attribute.getPeopleMoveParam().getPoint(),attribute.getPeopleMoveParam().getTargetCity());
   }
 
   public void print(String city) {

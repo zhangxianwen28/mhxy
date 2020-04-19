@@ -1,7 +1,6 @@
 package com.xw.server.model.point;
 
 import com.xw.server.model.CityEnum;
-import com.xw.server.model.CityTrees.CityTree;
 import lombok.Data;
 
 import java.awt.Point;
@@ -99,73 +98,75 @@ public class Points {
     public final static String FIGHT_GD = "FIGHT_GD"; //
     public final static String BASE_XY = "BASE_XY"; //
     public final static String BASE_CITY = "BASE_CITY"; //
+    public final static String TASK_BIAO_1 = "TASK_BIAO_1"; //
+    public final static String TASK_BIAO_2 = "TASK_BIAO_2"; //
 
     // Caching
-    private static Map<String, Attribute> map = new HashMap<>(); // 点击地图移动坐标
+    private static Map<String, MapAttribute> map = new HashMap<>(); // 点击地图移动坐标
     private static Map<String, Point> basePoint = new HashMap<>(); // 普通坐标
     private static Map<String, Screen> screenMap = new HashMap<>(); //截图
 
     static {
         // 初始化地图坐标
-        map.put(MAP_CAC_CFBJ, new Attribute(new Point(976,458), new Point(522,152),new Point(527,157),CityEnum.CFBJ,
-            1000));
-        map.put(MAP_CAC_QQF, new Attribute(new Point(), new Point(), 1000));
-        map.put(MAP_CAC_DTGF, new Attribute(new Point(), new Point(), 1000));
-        map.put(MAP_CAC_JD, new Attribute(new Point(), new Point(), 1000));
-        map.put(MAP_CAC_DTGJ, new Attribute(new Point(), new Point(), 1000));
-        map.put(MAP_CAC_JNYW, new Attribute(new Point(), new Point(), 1000));
-        map.put(MAP_CAC_HSS, new Attribute(new Point(), new Point(), 1000));
+        map.put(MAP_CAC_CFBJ, MapAttribute.builder()
+            .MiniMap(new Point(968, 459), new Point(520, 151))
+            .ToCity(new Point(525, 156), CityEnum.CFBJ)
+            .build());
+        map.put(MAP_CAC_QQF, null);
+        map.put(MAP_CAC_DTGF, null);
+        map.put(MAP_CAC_JD, null);
+        map.put(MAP_CAC_DTGJ, null);
+        map.put(MAP_CAC_JNYW, null);
+        map.put(MAP_CAC_HSS, null);
 
-        map.put(MAP_JNYW_CAC, new Attribute(new Point(), new Point(), 1000));
-        map.put(MAP_JNYW_JYC, new Attribute(new Point(), new Point(), 1000));
+        map.put(MAP_JNYW_CAC, null);
+        map.put(MAP_JNYW_JYC, null);
 
-        map.put(MAP_JYC_JNYW, new Attribute(new Point(), new Point(), 1000));
-        map.put(MAP_JYC_DHW, new Attribute(new Point(), new Point(), 1000));
+        map.put(MAP_JYC_JNYW, null);
+        map.put(MAP_JYC_DHW, null);
 
-        map.put(MAP_DHW_JYC, new Attribute(new Point(), new Point(), 1000));
-        map.put(MAP_DHW_ALG, new Attribute(new Point(), new Point(), 1000));
-        map.put(MAP_DHW_LG, new Attribute(new Point(), new Point(), 1000));
+        map.put(MAP_DHW_JYC, null);
+        map.put(MAP_DHW_ALG, null);
+        map.put(MAP_DHW_LG, null);
 
-        map.put(MAP_ALG_DHW, new Attribute(new Point(), new Point(), 1000));
-        map.put(MAP_ALG_HGS, new Attribute(new Point(), new Point(), 1000));
-        map.put(MAP_ALG_NEC, new Attribute(new Point(), new Point(), 1000));
-
-
-        map.put(MAP_HGS_ALG, new Attribute(new Point(), new Point(), 1000));
-        map.put(MAP_HGS_BJLZ, new Attribute(new Point(), new Point(), 1000));
-
-        map.put(MAP_BJLZ_HGS, new Attribute(new Point(), new Point(), 1000));
-        map.put(MAP_BJLZ_CSJW, new Attribute(new Point(), new Point(), 1000));
-
-        map.put(MAP_CSJW_BJLZ, new Attribute(new Point(), new Point(), 1000));
-        map.put(MAP_CSJW_CSC, new Attribute(new Point(), new Point(), 1000));
-        map.put(MAP_CSJW_DTJW, new Attribute(new Point(), new Point(), 1000));
-
-        map.put(MAP_CSC_CSJW, new Attribute(new Point(), new Point(), 1000));
-        map.put(MAP_DTJW_CSJW, new Attribute(new Point(), new Point(), 1000));
-        map.put(MAP_DTJW_DTGJ, new Attribute(new Point(), new Point(), 1000));
-        map.put(MAP_DTGJ_DTJW, new Attribute(new Point(), new Point(), 1000));
-        map.put(MAP_DTGJ_CAC, new Attribute(new Point(), new Point(), 1000));
+        map.put(MAP_ALG_DHW, null);
+        map.put(MAP_ALG_HGS, null);
+        map.put(MAP_ALG_NEC, null);
 
 
-        map.put(MAP_CFBJ_ZBT, new Attribute(new Point(), new Point(), 1000));
-        map.put(MAP_JD_DXE, new Attribute(new Point(), new Point(), 1000));
-        map.put(MAP_QQF_QQ, new Attribute(new Point(), new Point(), 1000));
-        map.put(MAP_DTGF_CYJ, new Attribute(new Point(), new Point(), 1000));
-        map.put(MAP_CJG_KDCS, new Attribute(new Point(), new Point(), 1000));
-        map.put(MAP_LXBD_YJ, new Attribute(new Point(), new Point(), 1000));
-        map.put(MAP_FCSD_PTSZ, new Attribute(new Point(), new Point(), 1000));
-        map.put(MAP_LGD_DHLW, new Attribute(new Point(), new Point(), 1000));
-        map.put(MAP_NECW_SPP, new Attribute(new Point(), new Point(), 1000));
-        map.put(MAP_MWZDF_NMW, new Attribute(new Point(), new Point(), 1000));
-        map.put(MAP_DXD_DDW, new Attribute(new Point(), new Point(), 1000));
-        map.put(MAP_LDD_EDW, new Attribute(new Point(), new Point(), 1000));
-        map.put(MAP_SWD_SDW, new Attribute(new Point(), new Point(), 1000));
-        map.put(MAP_WZGDD_ZYDX, new Attribute(new Point(), new Point(), 1000));
-        map.put(MAP_PSD_CSSN, new Attribute(new Point(), new Point(), 1000));
-        map.put(MAP_SLD_DZW, new Attribute(new Point(), new Point(), 1000));
+        map.put(MAP_HGS_ALG, null);
+        map.put(MAP_HGS_BJLZ, null);
 
-        map.forEach((k, v) -> v.getPoint1().setLocation(v.getPoint1().getX(), v.getPoint1().getY()));
+        map.put(MAP_BJLZ_HGS, null);
+        map.put(MAP_BJLZ_CSJW, null);
+
+        map.put(MAP_CSJW_BJLZ, null);
+        map.put(MAP_CSJW_CSC, null);
+        map.put(MAP_CSJW_DTJW, null);
+
+        map.put(MAP_CSC_CSJW, null);
+        map.put(MAP_DTJW_CSJW, null);
+        map.put(MAP_DTJW_DTGJ, null);
+        map.put(MAP_DTGJ_DTJW, null);
+        map.put(MAP_DTGJ_CAC, null);
+
+
+        map.put(MAP_CFBJ_ZBT, MapAttribute.builder().PeopleMove(new Point(35, 17)).build());
+        map.put(MAP_JD_DXE, null);
+        map.put(MAP_QQF_QQ, null);
+        map.put(MAP_DTGF_CYJ, null);
+        map.put(MAP_CJG_KDCS, null);
+        map.put(MAP_LXBD_YJ, null);
+        map.put(MAP_FCSD_PTSZ, null);
+        map.put(MAP_LGD_DHLW, null);
+        map.put(MAP_NECW_SPP, null);
+        map.put(MAP_MWZDF_NMW, null);
+        map.put(MAP_DXD_DDW, null);
+        map.put(MAP_LDD_EDW, null);
+        map.put(MAP_SWD_SDW, null);
+        map.put(MAP_WZGDD_ZYDX, null);
+        map.put(MAP_PSD_CSSN, null);
+        map.put(MAP_SLD_DZW, null);
 
         // 基本坐标
         basePoint.put(FLG_JD, new Point());
@@ -178,23 +179,32 @@ public class Points {
         screenMap.put(FIGHT_GD, new Screen(new Point(1146,876),40,24,"temp/current_gd"));
         screenMap.put(BASE_XY, new Screen(new Point(39,146),125,17,"temp/current_xy"));
         screenMap.put(BASE_CITY, new Screen(new Point(46,67),100,24,"temp/current_city"));
+        screenMap.put(TASK_BIAO_1, new Screen(new Point(223,504),630,200,"temp/task_biao_1"));
+        screenMap.put(TASK_BIAO_2, new Screen(new Point(223,504),460,160,"temp/task_biao_2"));
 
     }
 
-    public static Attribute getMap(String key) {
+    public static MapAttribute getMap(String key) {
         return map.get(key);
     }
+
+
     public static void offsetMap(Point point) {
         map.forEach((k,v)->{
-            Point p  = v.getPoint1();
-            p.setLocation(p.x+point.x,p.y+point.y);
+            if(v!=null && v.getMiniMapParam()!=null){
+                Point p  = v.getMiniMapParam().getPoint1();
+                p.setLocation(p.x+point.x,p.y+point.y);
+            }
+
         });
     }
+
     public static void offsetPoint(Point point) {
         basePoint.forEach((k,v)->{
             v.setLocation(v.x+point.x,v.y+point.y);
         });
     }
+
     public static void offsetScreen(Point point) {
         screenMap.forEach((k,v)->{
             Point p  = v.getStartPoint();
@@ -207,61 +217,6 @@ public class Points {
 
     public static Screen getScreen(String key) {
         return screenMap.get(key);
-    }
-
-
-    public static class Attribute {
-
-        private Point point1; // 迷你地图坐标
-        private Point point1v; // 迷你地图验证坐标
-
-        private Point point2; // 补偿坐标
-        private CityEnum point2v; //目的地
-        private CityTree cityTree;
-        private long sleepTime;
-
-        public Attribute(Point point1, Point point1v, Point point2, CityEnum point2v, long sleepTime) {
-            this.point1 = point1;
-            this.point1v = point1v;
-            this.point2 = point2;
-            this.point2v = point2v;
-            this.sleepTime = sleepTime;
-        }
-
-        public Attribute(Point point1, Point point1v, long sleepTime) {
-            this.point1 = point1;
-            this.point1v = point1v;
-            this.sleepTime = sleepTime;
-        }
-
-        public Point getPoint2() {
-            return point2;
-        }
-
-        public CityEnum getPoint2v() {
-            return point2v;
-        }
-
-        public CityTree getCityTree() {
-            return cityTree;
-        }
-
-        public void setCityTree(CityTree cityTree) {
-            this.cityTree = cityTree;
-        }
-
-        public long getSleepTime() {
-            return sleepTime;
-        }
-
-        public Point getPoint1() {
-            return point1;
-        }
-
-        public Point getPoint1v() {
-            return point1v;
-        }
-
     }
 
     @Data
@@ -281,8 +236,7 @@ public class Points {
         }
 
         public Screen initVerifyImage(){
-            Screen screen = new Screen(new Point(startPoint.x+2,startPoint.y+2),width-2,height-2,path);
-            return screen;
+            return new Screen(new Point(startPoint.x+2,startPoint.y+2),width-2,height-2,path);
         }
     }
 }

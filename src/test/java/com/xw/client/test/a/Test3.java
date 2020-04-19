@@ -2,29 +2,25 @@ package com.xw.client.test.a;
 
 import com.xw.server.context.GameContext;
 import com.xw.server.model.CityEnum;
+import com.xw.server.model.point.MapAttribute;
 import com.xw.server.service.OperationServiceImpl;
-import com.xw.server.util.RobotUtil;
-import java.awt.MouseInfo;
+import com.xw.server.service.auto.AutoPathService;
 import java.awt.Point;
 import org.opencv.core.Core;
 
 /**
  * @Auther: xw.z
- * @Date: 2020/4/16 19:10
+ * @Date: 2020/4/19 20:52
  * @Description:
  */
-public class Test1 {
-
+public class Test3 {
   static {
     System.loadLibrary(Core.NATIVE_LIBRARY_NAME);  //加载动态链接库
   }
   public static void main(String[] args) {
     GameContext.init();
-    System.out.println(GameContext.USER_DIR);
+    //AutoPathService.start(CityEnum.CAC, CityEnum.ZBT);
     OperationServiceImpl operationService = new OperationServiceImpl();
-    //Attribute attribute = new Attribute(new Point(968,459),new Point(520,151),100);
-    //operationService.moveByMiniMap(attribute);
-    //operationService.peopleMove(new Point(525,156), CityEnum.CFBJ);
-
+    operationService.peopleMove(new Point(35, 17),null);
   }
 }

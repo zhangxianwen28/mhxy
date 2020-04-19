@@ -35,7 +35,7 @@ public class GameContext {
   public static Point CLIENT_CENTER_POINT = new Point();     // 客户端中心坐标
   public static int WIDTH;     // 游戏客户端 宽度
   public static int HEIGHT;     // 游戏客户端高度
-
+  public static  String USER_DIR = System.getProperty("user.dir");
 
   /**
    * 查找windows窗口
@@ -86,6 +86,7 @@ public class GameContext {
     Points.offsetMap(CLIENT_POINT);
     Points.offsetPoint(CLIENT_POINT);
     Points.offsetScreen(CLIENT_POINT);
+    log.info("校准坐标 {}  -{39,146}", Points.getScreen(Points.BASE_XY).getStartPoint());
     log.info("当前位置：城市 {} 坐标 {}", getCurrCity(), getCurrPoint());
   }
 
