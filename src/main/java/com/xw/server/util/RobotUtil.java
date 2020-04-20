@@ -161,7 +161,11 @@ public class RobotUtil {
     fun.callback();
     return this;
   }
-
+  public RobotUtil F9(){
+    robot.keyPress(KeyEvent.VK_F9);
+    robot.keyRelease(KeyEvent.VK_F9);
+    return this;
+  }
   public RobotUtil ALT_A() {
     robot.keyPress(KeyEvent.VK_ALT);
     robot.keyPress(KeyEvent.VK_A);
